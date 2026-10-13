@@ -1,6 +1,6 @@
 <!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="robots" content="noindex"><title>My account · DataSnacks</title><link rel="stylesheet" href="style.css"></head><body>
-<header class="nav"><div class="wrap"><a class="logo" href="../"><span aria-hidden="true">🥨</span>DataSnacks</a><nav><a href="../">Shop</a><a href="index.html">My account</a></nav></div></header>
+<header class="nav"><div class="wrap"><a class="logo" href="../"><span aria-hidden="true">🥨</span>DataSnacks</a><nav><a href="../">Shop</a><a href="index.html">My account</a><a href="admin.html" id="adminLink" hidden>Admin</a></nav></div></header>
 <main><div class="wrap"><h1>My account</h1><div class="tabs"><a href="#invoices">Invoices &amp; payment requests</a><a href="#orders">Orders &amp; requests</a><a href="#details">Account details</a><a href="#security">Security</a><a href="#" id="out">Log out</a></div>
 <section class="card" id="invoices"><h2>Invoices &amp; payment requests</h2><div class="tablewrap"><table><thead><tr><th>Invoice</th><th>Date</th><th>Description</th><th>Amount</th><th>Status</th><th></th></tr></thead><tbody id="inv"></tbody></table></div></section>
 <section class="card" id="orders"><h2>Order history &amp; previous requests</h2><div class="tablewrap"><table><thead><tr><th>Order</th><th>Date</th><th>Package</th><th>Details</th><th>Status</th></tr></thead><tbody id="ord"></tbody></table></div></section>
@@ -9,6 +9,7 @@
 <script type="module">
 import { sb, $, msg, esc, money, safeUrl, requireAuth, logout } from "./app.js";
 const user = await requireAuth(); if (!user) throw 0;
+sb.rpc("is_admin").then(({ data }) => { if (data === true) $("#adminLink").hidden = false; });
 $("#out").onclick = (e) => { e.preventDefault(); logout(); };
 const fmtD = (d) => d ? new Date(d).toLocaleDateString("en-GB") : "";
 const { data: inv, error: ie } = await sb.from("invoices").select("*").order("issued_at", { ascending: false });

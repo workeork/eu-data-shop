@@ -1,0 +1,50 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex"><title>Admin · DataSnacks</title><link rel="stylesheet" href="style.css"></head><body>
+<header class="nav"><div class="wrap"><a class="logo" href="../"><span aria-hidden="true">🥨</span>DataSnacks</a><nav><a href="../">Shop</a><a href="index.html">My account</a><a href="admin.html">Admin</a></nav></div></header>
+<main><div class="wrap"><h1>Admin</h1><div id="gate" class="muted">Checking access…</div>
+<div id="app" hidden><div class="tabs"><a href="#customers">Customers</a><a href="#orders">Orders &amp; requests</a><a href="#invoices">Invoices</a><a href="#payments">Payments</a><a href="#" id="out">Log out</a></div>
+<section class="card" id="customers"><h2>Customers</h2><div class="tablewrap"><table><thead><tr><th>Email</th><th>Name</th><th>Company</th><th>VAT</th><th>Signed up</th><th>Last sign-in</th><th>2FA</th></tr></thead><tbody id="cus"></tbody></table></div></section>
+<section class="card" id="orders"><h2>Orders &amp; requests</h2><div class="tablewrap"><table><thead><tr><th>Order</th><th>Date</th><th>Customer</th><th>Package</th><th>Details</th><th>Status</th></tr></thead><tbody id="ord"></tbody></table></div></section>
+<section class="card" id="invoices"><h2>Invoices</h2><p id="tot" class="muted"></p><div class="tablewrap"><table><thead><tr><th>Invoice</th><th>Date</th><th>Customer</th><th>Description</th><th>Amount</th><th>Status</th><th></th></tr></thead><tbody id="inv"></tbody></table></div><div id="im"></div></section>
+<section class="card" id="payments"><h2>Payments</h2><div class="tablewrap"><table><thead><tr><th>Paid on</th><th>Invoice</th><th>Customer</th><th>Amount</th></tr></thead><tbody id="pay"></tbody></table></div></section>
+</div></div></main>
+<script type="module">
+import { sb, $, msg, esc, money, requireAuth, logout } from "./app.js";
+const user = await requireAuth(); if (!user) throw 0;            // redirects to login / MFA challenge (aal2) as needed
+const { data: ok, error: ae } = await sb.rpc("is_admin");
+if (ae || ok !== true) { $("#gate").textContent = "You do not have access to this page."; throw 0; }
+$("#gate").hidden = true; $("#app").hidden = false;
+$("#out").onclick = (e) => { e.preventDefault(); logout(); };
+const fmtD = (d) => d ? esc(new Date(d).toLocaleString("en-GB")) : "";
+const err = (n, e) => `<tr><td colspan=${n}>${esc(e.message)}</td></tr>`;
+const none = (n, t) => `<tr><td colspan=${n} class=muted>${esc(t)}</td></tr>`;
+
+async function loadCustomers() {
+  const [{ data: us, error: ue }, { data: ps }] = await Promise.all([sb.rpc("admin_list_users"), sb.from("profiles").select("*")]);
+  if (ue) return $("#cus").innerHTML = err(7, ue);
+  const pm = new Map((ps || []).map(p => [p.id, p]));
+  $("#cus").innerHTML = us.length ? us.map(u => { const p = pm.get(u.id) || {};
+    return `<tr><td>${esc(u.email)}</td><td>${esc(p.full_name)}</td><td>${esc(p.company)}</td><td>${esc(p.vat_number)}</td><td>${fmtD(u.created_at)}</td><td>${fmtD(u.last_sign_in_at)}</td><td>${u.mfa_enabled ? "On" : "Off"}</td></tr>`; }).join("") : none(7, "No users.");
+}
+async function loadOrders() {
+  const { data, error } = await sb.from("orders").select("*").order("created_at", { ascending: false });
+  $("#ord").innerHTML = error ? err(6, error) : data.length ? data.map(o => `<tr><td>${esc(o.order_ref)}</td><td>${fmtD(o.created_at)}</td><td>${esc(o.customer_email)}</td><td>${esc(o.package)}</td><td>${esc(o.details)}</td><td><span class="badge">${esc(o.status)}</span></td></tr>`).join("") : none(6, "No orders.");
+}
+async function loadInvoices() {
+  const { data, error } = await sb.from("invoices").select("*").order("issued_at", { ascending: false });
+  if (error) { $("#inv").innerHTML = err(7, error); $("#pay").innerHTML = err(4, error); return; }
+  const sum = (st) => { const t = {}; data.filter(i => i.status === st).forEach(i => t[i.currency] = (t[i.currency] || 0) + i.amount_cents);
+    return Object.entries(t).map(([c, v]) => money(v, c)).join(" + ") || money(0); };
+  $("#tot").textContent = `Open: ${sum("open")} · Paid: ${sum("paid")}`;
+  $("#inv").innerHTML = data.length ? data.map(i => `<tr><td>${esc(i.invoice_number)}</td><td>${fmtD(i.issued_at)}</td><td>${esc(i.customer_email)}</td><td>${esc(i.description)}</td><td>${esc(money(i.amount_cents, i.currency))}</td><td><span class="badge ${esc(i.status)}">${esc(i.status)}</span></td><td>${i.status === "open" ? `<button class="btn primary" style="margin:0" data-paid="${esc(i.id)}" data-num="${esc(i.invoice_number)}">Mark paid</button>` : ""}</td></tr>`).join("") : none(7, "No invoices.");
+  const paid = data.filter(i => i.status === "paid").sort((a, b) => new Date(b.paid_at || 0) - new Date(a.paid_at || 0));
+  $("#pay").innerHTML = paid.length ? paid.map(i => `<tr><td>${fmtD(i.paid_at)}</td><td>${esc(i.invoice_number)}</td><td>${esc(i.customer_email)}</td><td>${esc(money(i.amount_cents, i.currency))}</td></tr>`).join("") : none(4, "No payments yet.");
+}
+$("#inv").onclick = async (e) => { const b = e.target.closest("button[data-paid]"); if (!b) return;
+  if (!confirm(`Mark invoice ${b.dataset.num} as paid?`)) return;
+  b.disabled = true;
+  const { data, error } = await sb.from("invoices").update({ status: "paid", paid_at: new Date().toISOString() }).eq("id", Number(b.dataset.paid)).eq("status", "open").select("id");
+  if (error || !data?.length) { b.disabled = false; return msg($("#im"), error ? error.message : "Not updated (no permission or already changed)."); }
+  msg($("#im"), `Invoice ${b.dataset.num} marked paid.`, true); loadInvoices(); };
+await Promise.all([loadCustomers(), loadOrders(), loadInvoices()]);
+</script></body></html>
