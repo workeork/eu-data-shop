@@ -1,8 +1,9 @@
 <!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="robots" content="noindex"><title>My account · DataSnacks</title><link rel="stylesheet" href="style.css"></head><body>
 <header class="nav"><div class="wrap"><a class="logo" href="../"><span aria-hidden="true">🥨</span>DataSnacks</a><nav><a href="../">Shop</a><a href="index.html">My account</a><a href="admin.html" id="adminLink" hidden>Admin</a></nav></div></header>
-<main><div class="wrap"><h1>My account</h1><div class="tabs"><a href="#invoices">Invoices &amp; payment requests</a><a href="#orders">Orders &amp; requests</a><a href="#details">Account details</a><a href="#security">Security</a><a href="#" id="out">Log out</a></div>
-<section class="card" id="invoices"><h2>Invoices &amp; payment requests</h2><div class="tablewrap"><table><thead><tr><th>Invoice</th><th>Date</th><th>Description</th><th>Amount</th><th>Status</th><th></th></tr></thead><tbody id="inv"></tbody></table></div></section>
+<main><div class="wrap"><h1>My account</h1><div class="tabs"><a href="#neworder">New order</a><a href="#invoices">Invoices &amp; payment requests</a><a href="#orders">Orders &amp; requests</a><a href="#details">Account details</a><a href="#security">Security</a><a href="#" id="out">Log out</a></div>
+<section class="card" id="neworder"><h2>New order</h2><form id="of"><label>Product</label><select id="prod" required></select><p class="muted" id="pdesc"></p><label>Order details</label><textarea id="odet" rows="5" maxlength="4000" placeholder="CPV codes, keywords, countries, licence plates, payer, billing codes, state, NPIs…"></textarea><button class="btn primary">Place order</button></form><div id="om"></div></section>
+<section class="card" id="invoices"><h2>Invoices &amp; payment requests</h2><p class="note" id="payhelp"><b>How to pay:</b> click <b>Pay now</b> and pay the exact amount via PayPal. <b>Put the invoice reference (e.g. DS-AB12) in the PayPal note</b> so we can match your payment. Then click <b>I've paid</b>. The status becomes "paid" once we have confirmed receipt.</p><div id="ivm"></div><div class="tablewrap"><table><thead><tr><th>Invoice</th><th>Date</th><th>Description</th><th>Amount</th><th>Status</th><th></th></tr></thead><tbody id="inv"></tbody></table></div></section>
 <section class="card" id="orders"><h2>Order history &amp; previous requests</h2><div class="tablewrap"><table><thead><tr><th>Order</th><th>Date</th><th>Package</th><th>Details</th><th>Status</th></tr></thead><tbody id="ord"></tbody></table></div></section>
 <section class="card" id="details"><h2>Account details</h2><form id="pf"><label>Email</label><input id="email" disabled><label>Full name</label><input id="full_name"><label>Company</label><input id="company"><label>VAT number</label><input id="vat_number"><label>Billing address</label><input id="billing_address"><button class="btn primary">Save</button></form><div id="pm"></div></section>
 <section class="card" id="security"><h2>Security</h2><p id="mfaState" class="muted"></p><a class="btn ghost" href="mfa.html" id="mfaBtn">Set up 2FA</a> <button class="btn ghost" id="unenroll" hidden>Disable 2FA</button><h2 style="margin-top:1.5rem">Change password</h2><form id="cp"><label>New password</label><input id="npw" type="password" minlength="10" autocomplete="new-password" required><button class="btn primary">Update password</button></form><div id="sm"></div></section></div></main>
@@ -12,11 +13,34 @@ const user = await requireAuth(); if (!user) throw 0;
 sb.rpc("is_admin").then(({ data }) => { if (data === true) $("#adminLink").hidden = false; });
 $("#out").onclick = (e) => { e.preventDefault(); logout(); };
 const fmtD = (d) => d ? new Date(d).toLocaleDateString("en-GB") : "";
-const { data: inv, error: ie } = await sb.from("invoices").select("*").order("issued_at", { ascending: false });
-$("#inv").innerHTML = ie ? `<tr><td colspan=6>${esc(ie.message)}</td></tr>` : (inv.length ? inv.map(i => { const u = safeUrl(i.payment_url);
-  return `<tr><td>${esc(i.invoice_number)}</td><td>${fmtD(i.issued_at)}</td><td>${esc(i.description)}</td><td>${money(i.amount_cents, i.currency)}</td><td><span class="badge ${esc(i.status)}">${esc(i.status)}</span></td><td>${i.status === "open" && u ? `<a class="btn primary" style="margin:0" href="${esc(u)}" target="_blank" rel="noopener noreferrer">Pay now</a>` : ""}</td></tr>`; }).join("") : "<tr><td colspan=6 class=muted>No invoices yet.</td></tr>");
-const { data: ord, error: oe } = await sb.from("orders").select("*").order("created_at", { ascending: false });
-$("#ord").innerHTML = oe ? `<tr><td colspan=5>${esc(oe.message)}</td></tr>` : (ord.length ? ord.map(o => `<tr><td>${esc(o.order_ref)}</td><td>${fmtD(o.created_at)}</td><td>${esc(o.package)}</td><td>${esc(o.details)}</td><td><span class="badge">${esc(o.status)}</span></td></tr>`).join("") : "<tr><td colspan=5 class=muted>No orders yet.</td></tr>");
+async function loadInvoices() {
+  const { data: inv, error: ie } = await sb.from("invoices").select("*").order("issued_at", { ascending: false });
+  $("#inv").innerHTML = ie ? `<tr><td colspan=6>${esc(ie.message)}</td></tr>` : (inv.length ? inv.map(i => { const u = safeUrl(i.payment_url);
+    const act = i.status === "open" ? (u ? `<a class="btn primary" style="margin:0" href="${esc(u)}" target="_blank" rel="noopener noreferrer">Pay now</a> ` : "") + `<button class="btn ghost" style="margin:0" data-pend="${esc(i.invoice_number)}">I've paid</button><div class="muted">PayPal note: <b>${esc(i.invoice_number)}</b></div>`
+      : i.status === "payment_pending" ? `<span class="muted">Checking your payment…</span>` : "";
+    return `<tr><td>${esc(i.invoice_number)}</td><td>${fmtD(i.issued_at)}</td><td>${esc(i.description)}</td><td>${money(i.amount_cents, i.currency)}</td><td><span class="badge ${esc(i.status)}">${esc(i.status.replace("_", " "))}</span></td><td>${act}</td></tr>`; }).join("") : "<tr><td colspan=6 class=muted>No invoices yet.</td></tr>");
+}
+$("#inv").onclick = async (e) => { const b = e.target.closest("button[data-pend]"); if (!b) return;
+  if (!confirm(`Confirm you have paid ${b.dataset.pend} with the reference in the PayPal note?`)) return;
+  b.disabled = true; const { data, error } = await sb.rpc("mark_payment_pending", { p_invoice: b.dataset.pend });
+  if (error || data !== true) { b.disabled = false; return msg($("#ivm"), error ? error.message : "Not updated (already changed?)."); }
+  msg($("#ivm"), `Thanks! We'll confirm ${b.dataset.pend} once the payment arrives.`, true); loadInvoices(); };
+const { data: prods, error: pe } = await sb.from("products").select("code,name,description,price_cents,currency").eq("active", true).order("sort");
+const pmap = new Map((prods || []).map(p => [p.code, p]));
+$("#prod").innerHTML = pe ? `<option value="">${esc(pe.message)}</option>` : `<option value="">Choose a product…</option>` + (prods || []).map(p => `<option value="${esc(p.code)}">${esc(p.name)} (${esc(money(p.price_cents, p.currency))})</option>`).join("");
+$("#prod").onchange = () => { $("#pdesc").textContent = pmap.get($("#prod").value)?.description || ""; };
+$("#of").onsubmit = async (e) => { e.preventDefault(); const btn = e.submitter; if (btn) btn.disabled = true;
+  const { data, error } = await sb.rpc("place_order", { p_product: $("#prod").value, p_details: $("#odet").value.trim() });
+  if (btn) btn.disabled = false;
+  if (error) return msg($("#om"), error.message);
+  msg($("#om"), `Order placed. Invoice ${data.reference} for ${money(data.amount_cents, data.currency)} is below: click Pay now and put ${data.reference} in the PayPal note.`, true);
+  $("#of").reset(); $("#pdesc").textContent = ""; loadInvoices(); loadOrders(); };
+await loadInvoices();
+async function loadOrders() {
+  const { data: ord, error: oe } = await sb.from("orders").select("*").order("created_at", { ascending: false });
+  $("#ord").innerHTML = oe ? `<tr><td colspan=5>${esc(oe.message)}</td></tr>` : (ord.length ? ord.map(o => `<tr><td>${esc(o.order_ref)}</td><td>${fmtD(o.created_at)}</td><td>${esc(o.package)}</td><td>${esc(o.details)}</td><td><span class="badge">${esc(o.status)}</span></td></tr>`).join("") : "<tr><td colspan=5 class=muted>No orders yet.</td></tr>");
+}
+await loadOrders();
 const F = ["full_name", "company", "vat_number", "billing_address"];
 $("#email").value = user.email;
 const { data: p } = await sb.from("profiles").select("*").eq("id", user.id).maybeSingle();
