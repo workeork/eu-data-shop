@@ -1,0 +1,169 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>What will it cost? Free health care price checker</title>
+<meta name="description" content="Free, simple price checker for common medical services. See the prices US insurers have negotiated with doctors and clinics, based on CMS Transparency in Coverage data.">
+<meta name="theme-color" content="#0f766e">
+<style>
+:root{--ink:#1f2937;--muted:#4b5563;--line:#e5e7eb;--bg:#fffbf5;--card:#fff;--brand:#0f766e;--brand-d:#115e59;--soft:#ecfdf5;--warm:#fef3c7;--low:#10b981;--mid:#0f766e;--high:#f59e0b;--r:16px}
+*{box-sizing:border-box}
+body{margin:0;font-family:system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;color:var(--ink);background:var(--bg);line-height:1.55;font-size:17px}
+a{color:var(--brand-d)}
+.wrap{max-width:860px;margin:0 auto;padding:0 18px}
+.skip{position:absolute;left:-999px}.skip:focus{left:12px;top:12px;background:#fff;padding:8px 12px;border-radius:8px;z-index:9}
+header{padding:14px 0;border-bottom:1px solid var(--line);background:#fff}
+header .wrap{display:flex;justify-content:space-between;align-items:center;gap:12px}
+.brand{font-weight:800;text-decoration:none;color:var(--ink);display:flex;align-items:center;gap:8px}
+.brand span{display:inline-grid;place-items:center;width:32px;height:32px;border-radius:10px;background:var(--brand);color:#fff}
+header small a{color:var(--muted)}
+.hero{padding:34px 0 8px}
+h1{font-size:clamp(1.8rem,6vw,2.6rem);line-height:1.15;margin:0 0 .6rem;letter-spacing:-.02em}
+.lead{color:var(--muted);margin:0 0 1.2rem;font-size:1.08rem}
+form.finder{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:18px;box-shadow:0 8px 30px -18px rgba(15,118,110,.45);display:grid;gap:14px}
+@media(min-width:720px){form.finder{grid-template-columns:2fr 1fr 1.4fr auto;align-items:start}form.finder .go{margin-top:29px}}
+label{font-weight:650;font-size:.95rem;display:block;margin-bottom:6px}
+select,input{width:100%;font:inherit;padding:12px 12px;border:1.5px solid #cbd5e1;border-radius:12px;background:#fff;color:var(--ink);min-height:48px}
+select:focus,input:focus,button:focus,a:focus,summary:focus{outline:3px solid #99f6e4;outline-offset:2px;border-color:var(--brand)}
+button.go{font:inherit;font-weight:700;background:var(--brand);color:#fff;border:0;border-radius:12px;padding:12px 20px;min-height:48px;cursor:pointer}
+button.go:hover{background:var(--brand-d)}
+.hint{font-size:.85rem;color:var(--muted);margin-top:4px}
+#results{margin:26px 0}
+.empty{background:#fff;border:1px dashed #cbd5e1;border-radius:var(--r);padding:18px;color:var(--muted)}
+.svc-title{font-size:1.35rem;margin:0 0 .2rem}.svc-title:focus{outline:none}
+.svc-sub{color:var(--muted);margin:0 0 1rem;font-size:.95rem}
+.card{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:16px 16px 14px;margin-bottom:14px}
+.card h3{margin:0;font-size:1.05rem}
+.card .net{color:var(--muted);font-size:.9rem;margin:.1rem 0 .7rem}
+.badge{display:inline-block;font-size:.75rem;font-weight:700;border-radius:999px;padding:.1rem .55rem;margin-left:.3rem;vertical-align:middle}
+.badge.home{background:var(--soft);color:#065f46}.badge.away{background:var(--warm);color:#92400e}
+.kind{font-size:.85rem;font-weight:650;color:var(--muted);margin:.6rem 0 .25rem}
+.nums{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;text-align:center}
+.num{border-radius:12px;padding:8px 4px;background:#f9fafb}
+.num b{display:block;font-size:1.35rem;letter-spacing:-.01em}
+.num span{font-size:.8rem;color:var(--muted)}
+.num.typ{background:var(--soft)}.num.typ b{color:var(--brand-d)}
+.bar{position:relative;height:8px;border-radius:99px;background:linear-gradient(90deg,var(--low),var(--mid) 50%,var(--high));margin:10px 2px 2px;opacity:.85}
+.count{font-size:.8rem;color:var(--muted);margin-top:6px}
+.you-pay{background:var(--warm);border-radius:12px;padding:10px 12px;font-size:.92rem;margin-top:10px}
+h2{font-size:1.25rem;margin:1.6rem 0 .6rem}
+ol.cheap{list-style:none;padding:0;margin:0}
+ol.cheap li{display:flex;justify-content:space-between;gap:12px;background:#fff;border:1px solid var(--line);border-radius:12px;padding:10px 12px;margin-bottom:8px}
+ol.cheap .who b{display:block}
+ol.cheap .who span{display:block;font-size:.85rem;color:var(--muted)}
+ol.cheap .price{font-weight:800;font-size:1.1rem;white-space:nowrap}
+ol.cheap .price small{display:block;font-weight:500;font-size:.75rem;color:var(--muted);text-align:right}
+details{background:#fff;border:1px solid var(--line);border-radius:12px;padding:12px 14px;margin-bottom:10px}
+summary{cursor:pointer;font-weight:650}
+section.explain{margin:30px 0}
+table{width:100%;border-collapse:collapse;font-size:.9rem;background:#fff;border-radius:12px;overflow:hidden}
+th,td{padding:8px 10px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top}
+th{background:#f9fafb}
+.tablewrap{overflow-x:auto;border:1px solid var(--line);border-radius:12px}
+footer{padding:26px 0 40px;color:var(--muted);font-size:.85rem;border-top:1px solid var(--line);margin-top:30px}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+</style>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<header><div class="wrap"><a class="brand" href="./"><span aria-hidden="true">$</span>Price Checker</a><small><a href="../">by EU Data Shop</a></small></div></header>
+<main id="main" class="wrap">
+<section class="hero">
+<h1>What will it cost? Check real prices before you go.</h1>
+<p class="lead">See the prices insurers have agreed to pay doctors, clinics and hospitals for common care. Free, no sign-up, nothing to install.</p>
+<form class="finder" id="finder" novalidate>
+ <div><label for="svc">What do you need?</label><select id="svc" required></select></div>
+ <div><label for="where">ZIP code or state</label><input id="where" inputmode="text" autocomplete="postal-code" placeholder="e.g. 48104 or MI" aria-describedby="whereHint"><div class="hint" id="whereHint">5-digit ZIP or 2-letter state</div></div>
+ <div><label for="ins">Your insurer</label><select id="ins"></select></div>
+ <div><button class="go" type="submit">Show prices</button></div>
+</form>
+</section>
+<div id="results" aria-live="polite"></div>
+
+<section class="explain" aria-labelledby="h-explain">
+<h2 id="h-explain">What do these numbers mean?</h2>
+<details open><summary>These are negotiated rates, not your bill</summary><p>Each price is the amount an insurer has agreed to pay an in-network provider for that service. It is the total the provider gets: the insurer's share plus your share. Low means the 10th percentile, typical is the middle (median), and high is the 90th percentile of all in-network providers we found in your state.</p></details>
+<details><summary>So what will <em>I</em> pay?</summary><p>That depends on your plan. <b>Before you meet your deductible</b>, you usually pay the full negotiated rate. <b>After the deductible</b>, you pay your <b>coinsurance</b>, often 10–30% of the rate, or a fixed <b>copay</b>. Once you reach your <b>out-of-pocket maximum</b> you pay nothing more that year. Your insurer's member website or the number on your ID card can tell you exactly.</p></details>
+<details><summary>Why can one service have two prices?</summary><p>Some services have a <b>doctor's fee</b> (the professional who does or reads the test) and a separate <b>facility fee</b> (the hospital or center). If both are shown, you may get two bills. Hospital outpatient departments often charge more than independent clinics.</p></details>
+<details><summary>Is this my exact plan?</summary><p>Not necessarily. Insurers publish one file per network. We include the networks listed below. Your plan may use a different network with different prices. Out-of-network care is not included and is usually much more expensive.</p></details>
+</section>
+
+<section class="explain" aria-labelledby="h-cov">
+<h2 id="h-cov">What's included</h2>
+<p id="covIntro" class="svc-sub"></p>
+<div class="tablewrap"><table><thead><tr><th scope="col">Insurer</th><th scope="col">Network</th><th scope="col">Main area</th><th scope="col">Data date</th></tr></thead><tbody id="covBody"></tbody></table></div>
+<p class="hint">Networks also include some providers outside their main area. We show those prices too, clearly marked, when we found at least 5 providers. Aetna, Cigna, Humana and Anthem are not included yet.</p>
+</section>
+</main>
+<footer><div class="wrap">
+<p><b>Source:</b> CMS Transparency in Coverage data (machine-readable files published by insurers under federal law). Provider names, cities and specialties come from the CMS NPPES provider registry. Plain-English service names are our own. Billing codes are shown for reference only.</p>
+<p>This tool is for general information only and is not medical, financial or insurance advice. Prices can change, and your cost depends on your plan. Always confirm with your insurer and provider. Not affiliated with any insurer or government agency.</p>
+<p><a href="../">EU Data Shop</a> · <a href="mailto:eu-data-shop@mail.grokbot.com">Contact</a></p>
+</div></footer>
+
+<script>
+(function(){
+var META=null, cache={}, $=function(id){return document.getElementById(id)};
+var STN={AL:"Alabama",AK:"Alaska",AZ:"Arizona",AR:"Arkansas",CA:"California",CO:"Colorado",CT:"Connecticut",DE:"Delaware",DC:"District of Columbia",FL:"Florida",GA:"Georgia",HI:"Hawaii",ID:"Idaho",IL:"Illinois",IN:"Indiana",IA:"Iowa",KS:"Kansas",KY:"Kentucky",LA:"Louisiana",ME:"Maine",MD:"Maryland",MA:"Massachusetts",MI:"Michigan",MN:"Minnesota",MS:"Mississippi",MO:"Missouri",MT:"Montana",NE:"Nebraska",NV:"Nevada",NH:"New Hampshire",NJ:"New Jersey",NM:"New Mexico",NY:"New York",NC:"North Carolina",ND:"North Dakota",OH:"Ohio",OK:"Oklahoma",OR:"Oregon",PA:"Pennsylvania",RI:"Rhode Island",SC:"South Carolina",SD:"South Dakota",TN:"Tennessee",TX:"Texas",UT:"Utah",VT:"Vermont",VA:"Virginia",WA:"Washington",WV:"West Virginia",WI:"Wisconsin",WY:"Wyoming",PR:"Puerto Rico"};
+var fmt=function(n){return "$"+Math.round(n).toLocaleString("en-US")};
+var esc=function(s){return String(s==null?"":s).replace(/[&<>"]/g,function(c){return{"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]})};
+var title=function(s){return s};
+fetch("data/meta.json").then(function(r){return r.json()}).then(function(m){
+  META=m;
+  var groups={};m.services.forEach(function(s){(groups[s.group]=groups[s.group]||[]).push(s)});
+  var h='<option value="">Choose a service…</option>';
+  Object.keys(groups).forEach(function(g){h+='<optgroup label="'+esc(g)+'">'+groups[g].map(function(s){return '<option value="'+s.id+'">'+esc(s.label)+'</option>'}).join("")+'</optgroup>'});
+  $("svc").innerHTML=h;
+  var brands=[];m.payers.forEach(function(p){if(brands.indexOf(p.brand)<0)brands.push(p.brand)});
+  $("ins").innerHTML='<option value="">All insurers we have</option>'+brands.map(function(b){return '<option>'+esc(b)+'</option>'}).join("")+'<option value="other">My insurer isn\'t listed</option>';
+  $("covIntro").textContent=m.services.length+" common services · "+Object.keys(m.states).length+" states with at least some prices · "+m.payers.length+" insurer networks. Data published by insurers for "+m.payers[0].updated+".";
+  $("covBody").innerHTML=m.payers.map(function(p){return "<tr><td>"+esc(p.brand)+"</td><td>"+esc(p.network)+"</td><td>"+p.main.map(function(s){return STN[s]||s}).join(", ")+"</td><td>"+esc(p.updated)+"</td></tr>"}).join("");
+  var q=new URLSearchParams(location.search);
+  if(q.get("s")){$("svc").value=q.get("s");$("where").value=q.get("w")||"";$("ins").value=q.get("i")||"";run();}
+}).catch(function(){$("results").innerHTML='<p class="empty">Sorry, the price data could not be loaded. Please try again later.</p>'});
+
+function toState(v){v=(v||"").trim().toUpperCase();if(/^[A-Z]{2}$/.test(v))return v;var z=v.replace(/\D/g,"");if(z.length>=3&&META.zip3[z.slice(0,3)])return META.zip3[z.slice(0,3)];return null}
+function load(st){if(cache[st])return Promise.resolve(cache[st]);return fetch("data/state/"+st+".json").then(function(r){if(!r.ok)throw 0;return r.json()}).then(function(d){cache[st]=d;return d})}
+
+$("finder").addEventListener("submit",function(e){e.preventDefault();run()});
+function run(){
+  var sid=$("svc").value, w=$("where").value, ins=$("ins").value, R=$("results");
+  if(!sid){R.innerHTML='<p class="empty">Please choose a service first.</p>';$("svc").focus();return}
+  var st=toState(w);
+  if(!st){R.innerHTML='<p class="empty">Please enter a 5-digit ZIP code or a 2-letter state (like MI).</p>';$("where").focus();return}
+  var zip=(w.replace(/\D/g,"").length===5)?w.replace(/\D/g,""):"";
+  history.replaceState(null,"","?s="+sid+"&w="+encodeURIComponent(w.trim())+"&i="+encodeURIComponent(ins));
+  var svc=META.services.filter(function(s){return s.id===sid})[0];
+  if(ins==="other"){R.innerHTML='<p class="empty">We don\'t have your insurer yet. Below are prices from other insurers in '+esc(STN[st]||st)+'. They give a rough idea of the range, but your insurer\'s prices may differ.</p>';ins=""}
+  else R.innerHTML='<p class="empty">Loading prices…</p>';
+  if(!META.states[st]){R.innerHTML='<p class="empty">We don\'t have prices for '+esc(STN[st]||st)+' yet. See the coverage list below.</p>';return}
+  load(st).then(function(d){render(d,svc,st,zip,ins)}).catch(function(){R.innerHTML='<p class="empty">We don\'t have prices for '+esc(STN[st]||st)+' yet.</p>'});
+}
+function block(label,x){return '<div class="kind">'+label+'</div><div class="nums" role="group" aria-label="'+label+' price range"><div class="num"><b>'+fmt(x.low)+'</b><span>low</span></div><div class="num typ"><b>'+fmt(x.typical)+'</b><span>typical</span></div><div class="num"><b>'+fmt(x.high)+'</b><span>high</span></div></div><div class="bar" aria-hidden="true"></div><div class="count">Based on '+x.count.toLocaleString("en-US")+' in-network providers in this state</div>'}
+function render(d,svc,st,zip,ins){
+  var R=$("results"), byP=d.services[svc.id]||{}, out="", cheap=[];
+  var payers=META.payers.filter(function(p){return byP[p.id]&&(!ins||p.brand===ins)});
+  payers.sort(function(a,b){return (b.main.indexOf(st)>=0)-(a.main.indexOf(st)>=0)||((byP[b.id].professional||{}).count||0)-((byP[a.id].professional||{}).count||0)});
+  out+='<h2 class="svc-title">'+esc(svc.label)+' in '+esc(STN[st]||st)+'</h2><p class="svc-sub">Billing code '+esc(svc.code)+' · prices insurers pay in-network providers</p>';
+  if(!payers.length){R.innerHTML=out+'<p class="empty">We found no prices for this service'+(ins?' from '+esc(ins):'')+' in '+esc(STN[st]||st)+'. Try "All insurers" or a nearby state.</p>';return}
+  payers.forEach(function(p){
+    var x=byP[p.id], home=p.main.indexOf(st)>=0, ref=x.professional||x.facility;
+    out+='<article class="card"><h3>'+esc(p.brand)+(home?'<span class="badge home">Main area</span>':'<span class="badge away">Outside main area · fewer providers</span>')+'</h3><p class="net">'+esc(p.network)+'</p>';
+    if(x.professional)out+=block(x.facility?"Doctor's fee":"Price",x.professional);
+    if(x.facility)out+=block("Facility fee (hospital or center)",x.facility);
+    out+='<div class="you-pay"><b>Example:</b> at the typical price of '+fmt(ref.typical)+', you would pay about <b>'+fmt(ref.typical)+'</b> if you haven\'t met your deductible yet, or about <b>'+fmt(ref.typical*0.2)+'</b> with 20% coinsurance after your deductible.</div></article>';
+    ["professional","facility"].forEach(function(k){(x[k]&&x[k].cheapest||[]).forEach(function(c){cheap.push({c:c,p:p,k:k})})});
+  });
+  var z3=zip.slice(0,3);
+  cheap.sort(function(a,b){var na=z3&&a.c.z.slice(0,3)===z3?0:1,nb=z3&&b.c.z.slice(0,3)===z3?0:1;return na-nb||a.c.r-b.c.r});
+  var seen={},list=[];cheap.forEach(function(e){var key=e.c.n+e.c.c+e.p.id;if(!seen[key]&&list.length<10){seen[key]=1;list.push(e)}});
+  out+='<h2>Lowest-price providers'+(z3?' near '+esc(zip):' in '+esc(STN[st]||st))+'</h2><p class="svc-sub">'+(z3?'Providers in your ZIP area come first, then the rest of the state. ':'')+'Always check that the provider is in <b>your</b> plan\'s network before booking.</p><ol class="cheap">';
+  list.forEach(function(e){var c=e.c;out+='<li><div class="who"><b>'+esc(c.n)+'</b><span>'+esc(c.s||(c.o?"Clinic / facility":"Provider"))+' · '+esc(c.c)+(c.z?' '+esc(c.z):'')+'</span><span>'+esc(e.p.brand)+' – '+esc(e.p.network)+(e.k==="facility"?' · facility fee':'')+'</span></div><div class="price">'+fmt(c.r)+'<small>negotiated</small></div></li>'});
+  out+='</ol>';
+  R.innerHTML=out; R.querySelector(".svc-title").setAttribute("tabindex","-1"); R.querySelector(".svc-title").focus();
+}
+})();
+</script>
+</body>
+</html>
