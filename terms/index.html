@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Terms · DataSnacks</title>
+<meta name="description" content="DataSnacks terms of sale: final sales, as-is public data, limitation of liability, Dutch law.">
+<style>
+:root{--ink:#0f172a;--muted:#475569;--line:#e2e8f0;--bg:#f8fafc;--brand:#1d4ed8;--brand2:#0ea5e9;--ok:#059669;--card:#fff;--r:14px}
+*{box-sizing:border-box}html{scroll-behavior:smooth}
+body{margin:0;font-family:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;color:var(--ink);background:#fff;line-height:1.6}
+a{color:var(--brand)}.wrap{max-width:1120px;margin:0 auto;padding:0 20px}
+header.nav{position:sticky;top:0;z-index:10;background:rgba(255,255,255,.9);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
+.nav .wrap{display:flex;align-items:center;justify-content:space-between;height:64px}
+.logo{font-weight:800;letter-spacing:-.02em;text-decoration:none;color:var(--ink);display:flex;gap:.5rem;align-items:center}
+.logo span{font-size:1.1rem!important;display:inline-grid;place-items:center;width:30px;height:30px;border-radius:8px;background:linear-gradient(135deg,var(--brand),var(--brand2));color:#fff;font-size:.9rem}
+.nav nav a{color:var(--muted);text-decoration:none;margin-left:1.4rem;font-size:.95rem}.nav nav a:hover{color:var(--ink)}
+@media(max-width:760px){.nav nav a:not(.cta){display:none}}
+.btn{display:inline-flex;align-items:center;gap:.4rem;padding:.7rem 1.15rem;border-radius:10px;font-weight:600;text-decoration:none;border:1px solid transparent;transition:.15s}
+.btn.primary{background:var(--brand);color:#fff}.btn.primary:hover{background:#1e40af}
+.btn.ghost{border-color:var(--line);color:var(--ink);background:#fff}.btn.ghost:hover{border-color:#cbd5e1}
+.nav .cta{margin-left:1.4rem;padding:.45rem .9rem}
+.hero{background:radial-gradient(1200px 400px at 80% -10%,#dbeafe 0,transparent 60%),radial-gradient(800px 300px at 0 0,#e0f2fe 0,transparent 60%);padding:84px 0 64px}
+.hero h1{font-size:clamp(2rem,4.5vw,3.3rem);line-height:1.1;letter-spacing:-.03em;margin:.2rem 0 1rem;max-width:820px}
+.hero p.lead{font-size:1.15rem;color:var(--muted);max-width:700px;margin:0 0 1.8rem}
+.pill{display:inline-block;font-size:.8rem;font-weight:600;color:var(--brand);background:#eff6ff;border:1px solid #dbeafe;border-radius:999px;padding:.25rem .7rem}
+.trust{display:flex;flex-wrap:wrap;gap:1.4rem;margin-top:2.2rem;color:var(--muted);font-size:.92rem}.trust b{color:var(--ink)}
+section{padding:72px 0}section.alt{background:var(--bg);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+h2{font-size:clamp(1.6rem,3vw,2.2rem);letter-spacing:-.02em;margin:0 0 .5rem}.sub{color:var(--muted);margin:0 0 2.2rem;max-width:720px}
+h3.group{margin:2.2rem 0 1rem;font-size:1.05rem;color:var(--muted);text-transform:uppercase;letter-spacing:.06em}
+.grid{display:grid;gap:20px;grid-template-columns:repeat(auto-fill,minmax(250px,1fr))}
+.card{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:24px;display:flex;flex-direction:column;box-shadow:0 1px 2px rgba(15,23,42,.04)}
+.card.feat{border-color:#93c5fd;box-shadow:0 10px 30px -12px rgba(29,78,216,.35)}
+.card h4{margin:.2rem 0 .3rem;font-size:1.15rem}.card .src{font-size:.82rem;color:var(--muted)}
+.price{font-size:2rem;font-weight:800;letter-spacing:-.02em;margin:.9rem 0 .1rem}.price small{font-size:.95rem;font-weight:500;color:var(--muted)}
+.card ul{padding-left:1.1rem;margin:.8rem 0 1.2rem;color:#334155;font-size:.95rem}.card li{margin:.25rem 0}
+.card .btn{margin-top:auto;justify-content:center}
+.tag{align-self:flex-start;font-size:.72rem;font-weight:700;color:#065f46;background:#d1fae5;border-radius:999px;padding:.15rem .55rem;margin-bottom:.4rem}
+.steps{display:grid;gap:20px;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));counter-reset:s}
+.step{background:#fff;border:1px solid var(--line);border-radius:var(--r);padding:22px}
+.step:before{counter-increment:s;content:counter(s);display:inline-grid;place-items:center;width:34px;height:34px;border-radius:50%;background:#eff6ff;color:var(--brand);font-weight:800;margin-bottom:.6rem}
+.step h4{margin:.2rem 0 .3rem}.step p{margin:0;color:var(--muted);font-size:.95rem}
+.oid{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;background:#fef9c3;border:1px solid #fde68a;padding:.1rem .45rem;border-radius:6px;font-weight:700}
+.tabs{display:flex;gap:.5rem;flex-wrap:wrap;margin-bottom:1rem}.tabs button{font:inherit;border:1px solid var(--line);background:#fff;border-radius:999px;padding:.4rem .9rem;cursor:pointer}
+.tabs button[aria-selected=true]{background:var(--ink);color:#fff;border-color:var(--ink)}
+.tablewrap{overflow-x:auto;border:1px solid var(--line);border-radius:var(--r);background:#fff}
+table{border-collapse:collapse;width:100%;font-size:.88rem;min-width:640px}th,td{text-align:left;padding:.6rem .8rem;border-bottom:1px solid var(--line);white-space:nowrap}
+th{background:var(--bg);font-weight:600;color:#334155}td.num{text-align:right;font-variant-numeric:tabular-nums}
+.note{font-size:.85rem;color:var(--muted);margin-top:.7rem}
+details{background:#fff;border:1px solid var(--line);border-radius:12px;padding:16px 20px;margin-bottom:12px}
+summary{cursor:pointer;font-weight:600;list-style:none}summary::-webkit-details-marker{display:none}summary:after{content:"+";float:right;color:var(--muted)}details[open] summary:after{content:"–"}
+details p{color:#334155;margin:.7rem 0 0}
+.ctaband{background:linear-gradient(135deg,#1e3a8a,#1d4ed8 55%,#0284c7);color:#fff;border-radius:20px;padding:44px;display:flex;flex-wrap:wrap;gap:1.5rem;align-items:center;justify-content:space-between}
+.ctaband h2{color:#fff}.ctaband p{margin:0;opacity:.9}.ctaband .btn{background:#fff;color:#1e3a8a}
+footer{padding:40px 0;color:var(--muted);font-size:.86rem;border-top:1px solid var(--line)}
+@media(max-width:640px){.logo .tag{display:none}}.terms{max-width:760px}.terms h2{font-size:1.25rem;margin:2rem 0 .4rem}.terms p{color:#334155;margin:.4rem 0}</style>
+</head>
+<body>
+<header class="nav"><div class="wrap">
+<a class="logo" href="../" aria-label="DataSnacks home"><span aria-hidden="true">🥨</span>DataSnacks</a>
+<nav><a href="../prices/">Free price checker</a><a href="../#packages">Packages</a><a href="../#faq">FAQ</a><a class="btn primary cta" href="mailto:eu-data-shop@mail.grokbot.com">Contact</a></nav>
+</div></header>
+<main>
+<section><div class="wrap terms">
+<h1>Terms of sale</h1>
+<p class="note">Last updated: 13 October 2026</p>
+<h2>1. All sales are final</h2>
+<p>Our products are digital data files. When you order, you expressly ask us to start delivery right away. You acknowledge that you lose the EU 14-day right of withdrawal once delivery begins. After that, all sales are final.</p>
+<h2>2. Public data, provided as-is</h2>
+<p>Our data comes from public sources: CMS Transparency in Coverage files published by US health plans (payers), EU TED and EU funding portals, and RDW Open Data. We provide it as-is. It is only as accurate and complete as what the source or payer publishes, and discrepancies may exist.</p>
+<h2>3. Automated and AI-assisted processing</h2>
+<p>We may use automated and AI-assisted tools to process data. Errors, omissions or AI-generated inaccuracies are possible, and we are not liable for them.</p>
+<h2>4. Information only</h2>
+<p>Our data is for information only. It is not medical, legal, financial or billing advice.</p>
+<h2>5. Limitation of liability</h2>
+<p>To the maximum extent permitted by law, we are not liable for any damages, whether direct, indirect or consequential. Any liability is capped at the amount you paid for the order. Nothing in these terms excludes liability that cannot legally be excluded.</p>
+<h2>6. Applicable law</h2>
+<p>These terms are governed by Dutch law.</p>
+<h2>Questions</h2>
+<p>E-mail <a href="mailto:eu-data-shop@mail.grokbot.com">eu-data-shop@mail.grokbot.com</a>.</p>
+</div></section>
+</main>
+<footer><div class="wrap">
+<p><b>🥨 DataSnacks</b> · Bite-sized public data, served fresh. · Netherlands · <a href="mailto:eu-data-shop@mail.grokbot.com">eu-data-shop@mail.grokbot.com</a> · <a href="./">Terms</a></p>
+</div></footer>
+</body></html>
