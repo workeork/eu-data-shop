@@ -58,7 +58,7 @@ footer{padding:40px 0;color:var(--muted);font-size:.86rem;border-top:1px solid v
 <body>
 <header class="nav"><div class="wrap">
 <a class="logo" href="#" aria-label="DataSnacks home"><span aria-hidden="true">🥨</span>DataSnacks<small style="font-weight:500;color:var(--muted,#6b7280);font-size:.78rem;margin-left:.25rem" class="tag">Bite-sized public data, served fresh.</small></a>
-<nav><a href="prices/">Free price checker</a><a href="#packages">Packages</a><a href="#how">How it works</a><a href="#samples">Sample output</a><a href="#faq">FAQ</a><a class="btn primary cta mail" data-pkg="General question / free sample" href="mailto:eu-data-shop@mail.grokbot.com">Contact</a></nav>
+<nav><a href="prices/">Free price checker</a><a href="#packages">Packages</a><a href="#how">How it works</a><a href="#samples">Sample output</a><a href="#faq">FAQ</a><a href="account/">My account</a><a class="btn primary cta mail" data-pkg="General question / free sample" href="mailto:eu-data-shop@mail.grokbot.com">Contact</a></nav>
 </div></header>
 
 <main>
@@ -105,8 +105,11 @@ footer{padding:40px 0;color:var(--muted);font-size:.86rem;border-top:1px solid v
 <div class="card"><h4>Payer rate comparison</h4><div class="src">For employers, brokers and benefit consultants</div>
 <div class="price">€149 <small>≈ US$165</small></div><ul><li>Up to 3 payers and 25 codes, one state or NPI list</li><li>Side-by-side benchmark per code and payer (median, percentiles, range)</li><li>Raw rate extract included</li></ul>
 <a class="btn ghost mail" data-pkg="US payer rate comparison: up to 3 payers, 25 codes (EUR 149 / USD 165)" href="mailto:eu-data-shop@mail.grokbot.com">Order by e-mail</a></div>
+<div class="card"><span class="tag">New</span><h4>Michigan hospital price pack</h4><div class="src">Source: hospital standard-charge files (45 CFR Part 180)</div>
+<div class="price">€49 <small>≈ US$55</small></div><ul><li>17 Michigan hospitals: Henry Ford, Corewell, McLaren, Trinity Health and UM Health-Sparrow</li><li>30 common services: cash price, list price and every payer-specific negotiated $ rate</li><li>Payer names normalized (BCBS Michigan, Priority, HAP and others), with a link to each hospital's source file</li><li>Plain-English service labels, CSV</li></ul>
+<a class="btn ghost mail" data-pkg="Michigan hospital price pack (EUR 49 / USD 55)" href="mailto:eu-data-shop@mail.grokbot.com">Order by e-mail</a></div>
 </div>
-<p class="note"><b>On request (quoted separately):</b> out-of-network allowed amounts, hospital standard-charge files, city-level rate maps, Medicare Advantage enrollment data, and recurring monthly feeds.</p>
+<p class="note"><b>On request (quoted separately):</b> out-of-network allowed amounts, state hospital packs outside Michigan, city-level rate maps, Medicare Advantage enrollment data, and recurring monthly feeds.</p>
 <p class="note">Any applicable VAT is shown on the invoice. US orders can be invoiced in EUR or USD.</p>
 </div></section>
 
@@ -140,7 +143,7 @@ footer{padding:40px 0;color:var(--muted);font-size:.86rem;border-top:1px solid v
 <tr><td>BCBS Michigan</td><td>CPT 95718</td><td>derived · institutional</td><td class="num">73</td><td class="num">$121.92</td><td class="num">$243.85</td><td class="num">$455.03</td></tr>
 <tr><td>BCBS Michigan</td><td>CPT 95719</td><td>fee schedule · professional</td><td class="num">36,059</td><td class="num">$188.15</td><td class="num">$221.35</td><td class="num">$231.79</td></tr>
 </tbody></table></div>
-<p class="note">Downloads: <a href="samples/sample-eu-tenders.csv">sample-eu-tenders.csv</a> · <a href="samples/sample-us-negotiated-rates.csv">sample-us-negotiated-rates.csv</a> (40 of 14,280 rows from a file published 2026-10-01) · <a href="samples/sample-us-cost-benchmark.csv">sample-us-cost-benchmark.csv</a> · <a href="samples/sample-us-lowest-rate-hospitals.csv">sample-us-lowest-rate-hospitals.csv</a>. CPT® code descriptions are intentionally omitted (AMA copyright).</p>
+<p class="note">Downloads: <a href="samples/sample-eu-tenders.csv">sample-eu-tenders.csv</a> · <a href="samples/sample-us-negotiated-rates.csv">sample-us-negotiated-rates.csv</a> (40 of 14,280 rows from a file published 2026-10-01) · <a href="samples/sample-us-cost-benchmark.csv">sample-us-cost-benchmark.csv</a> · <a href="samples/sample-us-lowest-rate-hospitals.csv">sample-us-lowest-rate-hospitals.csv</a> · <a href="samples/sample-mi-hospital-prices.csv">sample-mi-hospital-prices.csv</a>. CPT® code descriptions are intentionally omitted (AMA copyright).</p>
 </div></section>
 
 <section id="faq" class="alt"><div class="wrap">
@@ -162,7 +165,7 @@ footer{padding:40px 0;color:var(--muted);font-size:.86rem;border-top:1px solid v
 </main>
 
 <footer><div class="wrap">
-<p><b>🥨 DataSnacks</b> · Bite-sized public data, served fresh. · Netherlands · <a href="mailto:eu-data-shop@mail.grokbot.com">eu-data-shop@mail.grokbot.com</a></p>
+<p><b>🥨 DataSnacks</b> · Bite-sized public data, served fresh. · Netherlands · <a href="mailto:eu-data-shop@mail.grokbot.com">eu-data-shop@mail.grokbot.com</a> · <a href="terms/">Terms</a></p>
 <p>Data: TED and EC Funding &amp; Tenders Portal © European Union (reuse authorised under Commission Decision 2011/833/EU); RDW Open Data (CC0); US Transparency in Coverage files are published by health plans under 45 CFR 147.212. CPT® is a registered trademark of the American Medical Association; CPT descriptions are not included. Not affiliated with the EU, RDW, CMS or any health plan.</p>
 </div></footer>
 
