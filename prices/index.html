@@ -86,6 +86,7 @@ footer{padding:26px 0 40px;color:var(--muted);font-size:.85rem;border-top:1px so
 <details open><summary>These are negotiated rates, not your bill</summary><p>Each price is the amount an insurer has agreed to pay an in-network provider for that service. It is the total the provider gets: the insurer's share plus your share. Low means the 10th percentile, typical is the middle (median), and high is the 90th percentile of all in-network providers we found in your state.</p></details>
 <details><summary>So what will <em>I</em> pay?</summary><p>That depends on your plan. <b>Before you meet your deductible</b>, you usually pay the full negotiated rate. <b>After the deductible</b>, you pay your <b>coinsurance</b>, often 10–30% of the rate, or a fixed <b>copay</b>. Once you reach your <b>out-of-pocket maximum</b> you pay nothing more that year. Your insurer's member website or the number on your ID card can tell you exactly.</p></details>
 <details><summary>Why can one service have two prices?</summary><p>Some services have a <b>doctor's fee</b> (the professional who does or reads the test) and a separate <b>facility fee</b> (the hospital or center). If both are shown, you may get two bills. Hospital outpatient departments often charge more than independent clinics.</p></details>
+<details><summary>What are hospital cash prices?</summary><p>For Michigan, we also show prices that hospitals publish themselves: the <b>cash price</b> for patients paying without insurance, the hospital's <b>list price</b> (gross charge), and the rate it lists for BCBS Michigan. They come from each hospital's official price file, and each one links to its source.</p></details>
 <details><summary>Is this my exact plan?</summary><p>Not necessarily. Insurers publish one file per network. We include the networks listed below. Your plan may use a different network with different prices. Out-of-network care is not included and is usually much more expensive.</p></details>
 </section>
 
@@ -93,13 +94,14 @@ footer{padding:26px 0 40px;color:var(--muted);font-size:.85rem;border-top:1px so
 <h2 id="h-cov">What's included</h2>
 <p id="covIntro" class="svc-sub"></p>
 <div class="tablewrap"><table><thead><tr><th scope="col">Insurer</th><th scope="col">Network</th><th scope="col">Main area</th><th scope="col">Data date</th></tr></thead><tbody id="covBody"></tbody></table></div>
-<p class="hint">Networks also include some providers outside their main area. We show those prices too, clearly marked, when we found at least 5 providers. Cigna and Humana are not included yet: they only serve their price files to US visitors. Aetna and Anthem cover selected state networks only.</p>
+<p class="hint">Networks also include some providers outside their main area. We show those prices too, clearly marked, when we found at least 5 providers. Aetna, Anthem and Cigna cover selected regional networks only. Humana is not included yet: its public price files are currently not available for download.</p>
 </section>
 </main>
 <footer><div class="wrap">
 <p><b>Source:</b> CMS Transparency in Coverage data (machine-readable files published by insurers under federal law). Provider names, cities and specialties come from the CMS NPPES provider registry. Plain-English service names are our own. Billing codes are shown for reference only.</p>
+<p><b>Hospital cash prices (Michigan):</b> hospital standard-charge files published under 45 CFR Part 180, linked to each hospital's file. Data from 2026.</p>
 <p>This tool is for general information only and is not medical, financial or insurance advice. Prices can change, and your cost depends on your plan. Always confirm with your insurer and provider. Not affiliated with any insurer or government agency.</p>
-<p><a href="../">🥨 DataSnacks</a> · Bite-sized public data, served fresh. · <a href="mailto:eu-data-shop@mail.grokbot.com">Contact</a></p>
+<p><a href="../">🥨 DataSnacks</a> · Bite-sized public data, served fresh. · <a href="mailto:eu-data-shop@mail.grokbot.com">Contact</a> · <a href="../terms/">Terms</a></p>
 </div></footer>
 
 <script>
@@ -141,6 +143,17 @@ function run(){
   load(st).then(function(d){render(d,svc,st,zip,ins)}).catch(function(){R.innerHTML='<p class="empty">We don\'t have prices for '+esc(STN[st]||st)+' yet.</p>'});
 }
 function block(label,x){return '<div class="kind">'+label+'</div><div class="nums" role="group" aria-label="'+label+' price range"><div class="num"><b>'+fmt(x.low)+'</b><span>low</span></div><div class="num typ"><b>'+fmt(x.typical)+'</b><span>typical</span></div><div class="num"><b>'+fmt(x.high)+'</b><span>high</span></div></div><div class="bar" aria-hidden="true"></div><div class="count">Based on '+x.count.toLocaleString("en-US")+' in-network providers in this state</div>'}
+
+function hospital(svc,st){
+  if(st!=="MI")return;
+  var go=function(H){var L=(H.services||{})[svc.id];if(!L||!L.length)return;
+    var o='<section class="hosp" aria-labelledby="h-hosp"><h2 id="h-hosp">Hospital cash prices in Michigan</h2><p class="svc-sub">What '+L.length+' Michigan hospitals say they charge for this service. <b>Cash price</b> is the discounted price for self-pay patients without insurance. <b>List price</b> is the hospital\'s full gross charge. <b>BCBS Michigan</b> is the typical rate the hospital lists for Blue Cross Blue Shield of Michigan. A hospital can list several prices for one service, for example a doctor\'s fee and a facility fee, so cash prices are shown as a range. Prices are from the hospital\'s own published price file.</p><div class="tablewrap"><table><thead><tr><th scope="col">Hospital</th><th scope="col">Cash price</th><th scope="col">List price</th><th scope="col">BCBS Michigan</th><th scope="col">Source</th></tr></thead><tbody>';
+    L.forEach(function(x){o+='<tr><td><b>'+esc(x.h)+'</b><br><span class="hint">'+esc(x.sy)+'</span></td><td>'+(x.cash?fmt(x.cash)+(x.cashhi&&x.cashhi!==x.cash?' – '+fmt(x.cashhi):''):'not listed')+'</td><td>'+(x.gross?fmt(x.gross):'–')+'</td><td>'+(x.bcbs?fmt(x.bcbs):'–')+'</td><td><a href="'+esc(x.u)+'" rel="nofollow noopener" target="_blank">Hospital price file</a><br><span class="hint">updated '+esc(x.d)+'</span></td></tr>'});
+    o+='</tbody></table></div><p class="hint">Source: standard-charge files Michigan hospitals publish under the federal Hospital Price Transparency rule (45 CFR Part 180). The links above go to the original files, which are large CSV downloads. "Not listed" means the hospital gives no cash price for this code. Ask the hospital for a written estimate before you book.</p></section>';
+    $("results").insertAdjacentHTML("beforeend",o)};
+  if(cache.hospMI)return go(cache.hospMI);
+  fetch("data/hospital-MI.json").then(function(r){return r.json()}).then(function(H){cache.hospMI=H;go(H)}).catch(function(){});
+}
 function render(d,svc,st,zip,ins){
   var R=$("results"), byP=d.services[svc.id]||{}, out="", cheap=[];
   var payers=META.payers.filter(function(p){return byP[p.id]&&(!ins||p.brand===ins)});
@@ -162,6 +175,7 @@ function render(d,svc,st,zip,ins){
   list.forEach(function(e){var c=e.c;out+='<li><div class="who"><b>'+esc(c.n)+'</b><span>'+esc(c.s||(c.o?"Clinic / facility":"Provider"))+' · '+esc(c.c)+(c.z?' '+esc(c.z):'')+'</span><span>'+esc(e.p.brand)+' – '+esc(e.p.network)+(e.k==="facility"?' · facility fee':'')+'</span></div><div class="price">'+fmt(c.r)+'<small>negotiated</small></div></li>'});
   out+='</ol>';
   R.innerHTML=out; R.querySelector(".svc-title").setAttribute("tabindex","-1"); R.querySelector(".svc-title").focus();
+  hospital(svc,st);
 }
 })();
 </script>
