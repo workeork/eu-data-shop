@@ -1,0 +1,33 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>EU Tender & Funding Digests | Dutch RDW data – from €5</title>
+<meta name="description" content="Open EU public tenders (TED), EU funding calls incl. cascade funding, and Dutch RDW vehicle data, delivered as Excel/CSV. Pay with PayPal from €5.">
+<style>body{font-family:system-ui,sans-serif;max-width:880px;margin:2rem auto;padding:0 1rem;line-height:1.5;color:#222}
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:1rem}.card{border:1px solid #ddd;border-radius:10px;padding:1rem}
+.price{font-size:1.5rem;font-weight:700;margin-top:.6rem}.btn{display:inline-block;background:#0070ba;color:#fff;padding:.5rem .9rem;border-radius:6px;text-decoration:none;margin:.25rem .2rem .25rem 0}
+.btn.alt{background:#2e7d32}code{background:#f4f4f4;border-radius:4px;padding:.1rem .3rem}.oid{font-family:monospace;font-size:1.2rem;background:#fff3cd;padding:.2rem .5rem;border-radius:4px}</style></head><body>
+<h1>EU tenders, EU funding calls &amp; Dutch vehicle data, ready to use</h1>
+<p>Official sources only: TED (EU Publications Office), the EC Funding &amp; Tenders Portal, and RDW Open Data. You get an Excel-ready CSV and a short summary by e-mail within 1 business day.</p>
+<p><b>How to order:</b> (1) click <i>Order by e-mail</i> and fill in the template, (2) pay with the PayPal button and <b>put your order number in the PayPal note</b>, (3) we e-mail your file.<br>
+Your order number: <span class="oid" id="oid">EDS-…</span> <small>(also included in the e-mail)</small></p>
+<div class="cards">
+<div class="card"><h3>EU tender digest</h3><p>All open tenders for your sector (CPV codes / keywords) and countries, with buyer, estimated value, deadline and link.</p>
+<div class="price">€9 <small>one-off</small></div><a class="btn alt mail" data-pkg="EU tender digest, one-off (€9)" href="#">Order by e-mail</a><a class="btn" href="https://www.paypal.me/BTenieur/9EUR">Pay €9 with PayPal</a>
+<div class="price">€19 <small>per month</small></div><small>A fresh digest every Monday. Cancel anytime.</small><br><a class="btn alt mail" data-pkg="EU tender digest, monthly (€19/month)" href="#">Order by e-mail</a><a class="btn" href="https://www.paypal.me/BTenieur/19EUR">Pay €19 with PayPal</a></div>
+<div class="card"><h3>EU funding-calls report</h3><p>Open and forthcoming Horizon Europe, Digital Europe, EIC, LIFE and Erasmus+ calls, <b>plus cascade funding</b> (€10k–€300k for SMEs), matching your topic and sorted by next deadline. Only calls with deadlines still ahead.</p>
+<div class="price">€9</div><a class="btn alt mail" data-pkg="EU funding-calls report (€9)" href="#">Order by e-mail</a><a class="btn" href="https://www.paypal.me/BTenieur/9EUR">Pay €9 with PayPal</a></div>
+<div class="card"><h3>100 RDW vehicle lookups</h3><p>Send up to 100 Dutch licence plates. You get make, model, APK expiry, fuel, CO₂, catalogue price, WAM status and open recalls as CSV.</p>
+<div class="price">€5</div><a class="btn alt mail" data-pkg="100 RDW vehicle lookups CSV (€5)" href="#">Order by e-mail</a><a class="btn" href="https://www.paypal.me/BTenieur/5EUR">Pay €5 with PayPal</a></div></div>
+<p>Questions or a free sample for your sector? <a href="mailto:eu-data-shop@mail.grokbot.com?subject=Sample%20request">eu-data-shop@mail.grokbot.com</a></p>
+<h3>For developers &amp; AI agents: coming soon</h3><p>Pay-per-call API access over Bitcoin Lightning (L402), from 5 sats per call.</p>
+<p><small>Your e-mail is used only to deliver your order and is deleted after 90 days. Netherlands-based. Data: TED and EC Funding &amp; Tenders Portal © European Union, reuse authorised; RDW Open Data, CC0. Not affiliated with these bodies.</small></p>
+<script>
+(function(){var d=new Date(),p=function(n){return String(n).padStart(2,"0")},a="ABCDEFGHJKLMNPQRSTUVWXYZ23456789",r="";
+var b=new Uint8Array(4);crypto.getRandomValues(b);for(var i=0;i<4;i++)r+=a[b[i]%a.length];
+var oid="EDS-"+String(d.getFullYear()).slice(2)+p(d.getMonth()+1)+p(d.getDate())+"-"+r;document.getElementById("oid").textContent=oid;
+document.querySelectorAll("a.mail").forEach(function(el){var pkg=el.getAttribute("data-pkg"),rdw=pkg.indexOf("RDW")>=0;
+var body="Order number: "+oid+"\nPackage: "+pkg+"\n\n"+(rdw?"Licence plates (one per line, max 100):\n\n\n":"Sector keywords:\nCPV codes (optional):\nCountries:\n\n")+
+"Name / company (optional):\nInvoice details (optional):\n\nI will pay via PayPal (paypal.me/BTenieur) with \""+oid+"\" in the PayPal note.\n";
+el.href="mailto:eu-data-shop@mail.grokbot.com?subject="+encodeURIComponent("Order "+oid+" – "+pkg)+"&body="+encodeURIComponent(body);});})();
+</script>
+<noscript><p><b>Without JavaScript:</b> e-mail eu-data-shop@mail.grokbot.com with the package, your criteria or plates, and use your e-mail address as the PayPal note.</p></noscript>
+</body></html>
