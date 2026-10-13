@@ -65,7 +65,7 @@ footer{padding:40px 0;color:var(--muted);font-size:.86rem;border-top:1px solid v
 <section class="hero"><div class="wrap">
 <span class="pill">Official open data · CSV / Excel ready · Delivered by e-mail</span>
 <h1>Tenders, funding calls and price data, cleaned and ready to use.</h1>
-<p class="lead">We turn official public sources into clean spreadsheets: EU public tenders (TED), EU funding calls including cascade funding, Dutch RDW vehicle data, and US health-plan negotiated rates. Tell us what you need, and you get your file and an invoice by e-mail.</p>
+<p class="lead">We turn official public sources into clean spreadsheets: EU public tenders (TED), EU funding calls including cascade funding, Dutch RDW vehicle data, and US health-plan price benchmarks built from negotiated rates. Tell us what you need, and you get your file and an invoice by e-mail.</p>
 <a class="btn primary" href="#packages">See packages</a> <a class="btn ghost" href="#samples">View sample output</a>
 <div class="trust"><div><b>Official sources only</b>: EU Publications Office, European Commission, RDW, US health plans (CMS rules)</div><div><b>Delivered in 1 business day</b> (US rate extracts: 2)</div><div><b>Invoice by e-mail</b>. No account needed.</div></div>
 </div></section>
@@ -91,14 +91,22 @@ footer{padding:40px 0;color:var(--muted);font-size:.86rem;border-top:1px solid v
 </div>
 
 <h3 class="group">United States: health-plan price transparency</h3>
+<p class="sub" style="margin-bottom:1.2rem">US insurers have to publish every negotiated in-network rate. The files are huge and almost impossible to read. We turn them into answers: what a procedure really costs with a given payer, who is cheapest, and where a provider stands against the market.</p>
 <div class="grid">
-<div class="card feat"><span class="tag">New</span><h4>Negotiated-rate extract</h4><div class="src">Source: Transparency in Coverage machine-readable files (CMS rule)</div>
-<div class="price">€49 <small>≈ US$55</small></div><ul><li>1 payer / plan file, up to 10 CPT/HCPCS codes</li><li>Every in-network negotiated rate with NPI, TIN, rate type, billing class and setting</li><li>Optional filter by NPI list or state</li></ul>
-<a class="btn primary mail" data-pkg="US negotiated-rate extract: 1 payer, up to 10 codes (EUR 49 / USD 55)" href="mailto:eu-data-shop@mail.grokbot.com">Order by e-mail</a></div>
-<div class="card"><h4>Payer rate benchmark</h4><div class="src">Source: Transparency in Coverage + hospital price files</div>
-<div class="price">€149 <small>≈ US$165</small></div><ul><li>Up to 3 payers and 25 codes, one state or NPI list</li><li>Side-by-side CSV + summary (min / median / max per code and payer)</li><li>Hospital standard-charge files added on request</li></ul>
-<a class="btn ghost mail" data-pkg="US payer rate benchmark: up to 3 payers, 25 codes (EUR 149 / USD 165)" href="mailto:eu-data-shop@mail.grokbot.com">Order by e-mail</a></div>
+<div class="card feat"><span class="tag">New</span><h4>Procedure cost benchmark</h4><div class="src">Source: Transparency in Coverage files + NPPES registry</div>
+<div class="price">€39 <small>≈ US$45</small></div><ul><li>1 payer, 1 CPT/HCPCS/DRG code</li><li>Median, mean and 10th–90th percentiles, split by rate type and professional vs facility</li><li>The 20 lowest-rate providers per setting with name, city and specialty</li><li>Placeholder ($0–$1) and expired rates removed</li></ul>
+<a class="btn primary mail" data-pkg="US procedure cost benchmark: 1 payer, 1 code (EUR 39 / USD 45)" href="mailto:eu-data-shop@mail.grokbot.com">Order by e-mail</a></div>
+<div class="card"><h4>Negotiated-rate extract</h4><div class="src">Source: Transparency in Coverage files</div>
+<div class="price">€49 <small>≈ US$55</small></div><ul><li>1 payer, up to 10 CPT/HCPCS codes</li><li>Every in-network negotiated rate with NPI, TIN, rate type, billing class and setting</li><li>Optional filter by NPI list or state</li></ul>
+<a class="btn ghost mail" data-pkg="US negotiated-rate extract: 1 payer, up to 10 codes (EUR 49 / USD 55)" href="mailto:eu-data-shop@mail.grokbot.com">Order by e-mail</a></div>
+<div class="card"><h4>Provider contract check</h4><div class="src">For providers, billing companies and RCM teams</div>
+<div class="price">€79 <small>≈ US$90</small></div><ul><li>1 payer, up to 50 NPIs or 1 TIN, up to 25 codes</li><li>Each of your rates next to the market median for that payer</li><li>Percentile rank per code, to spot under-paid contracts before renegotiation</li></ul>
+<a class="btn ghost mail" data-pkg="US provider contract check: 1 payer, up to 50 NPIs or 1 TIN, 25 codes (EUR 79 / USD 90)" href="mailto:eu-data-shop@mail.grokbot.com">Order by e-mail</a></div>
+<div class="card"><h4>Payer rate comparison</h4><div class="src">For employers, brokers and benefit consultants</div>
+<div class="price">€149 <small>≈ US$165</small></div><ul><li>Up to 3 payers and 25 codes, one state or NPI list</li><li>Side-by-side benchmark per code and payer (median, percentiles, range)</li><li>Raw rate extract included</li></ul>
+<a class="btn ghost mail" data-pkg="US payer rate comparison: up to 3 payers, 25 codes (EUR 149 / USD 165)" href="mailto:eu-data-shop@mail.grokbot.com">Order by e-mail</a></div>
 </div>
+<p class="note"><b>On request (quoted separately):</b> out-of-network allowed amounts, hospital standard-charge files, city-level rate maps, Medicare Advantage enrollment data, and recurring monthly feeds.</p>
 <p class="note">Any applicable VAT is shown on the invoice. US orders can be invoiced in EUR or USD.</p>
 </div></section>
 
@@ -116,7 +124,7 @@ footer{padding:40px 0;color:var(--muted);font-size:.86rem;border-top:1px solid v
 <section id="samples"><div class="wrap">
 <h2>Sample output</h2>
 <p class="sub">Real extracts produced by our pipeline this week. Download the full sample CSVs below.</p>
-<div class="tabs" role="tablist"><button role="tab" aria-selected="true" data-t="t1">EU tenders</button><button role="tab" aria-selected="false" data-t="t2">US negotiated rates</button></div>
+<div class="tabs" role="tablist"><button role="tab" aria-selected="true" data-t="t1">EU tenders</button><button role="tab" aria-selected="false" data-t="t2">US negotiated rates</button><button role="tab" aria-selected="false" data-t="t3">US cost benchmark</button></div>
 <div id="t1" class="tablewrap"><table><thead><tr><th>Title</th><th>Buyer</th><th>Country</th><th>Deadline</th><th class="num">Est. value</th></tr></thead><tbody>
 <tr><td>IT services: consulting, software development (Microsoft 365 managed services)</td><td>Luchtverkeersleiding Nederland</td><td>NL</td><td>2026-11-12</td><td class="num">€3,000,000</td></tr>
 <tr><td>IT services: consulting, software development, Internet and support</td><td>Stichting Universiteit voor Humanistiek</td><td>NL</td><td>2026-11-06</td><td class="num">n/a</td></tr>
@@ -127,7 +135,12 @@ footer{padding:40px 0;color:var(--muted);font-size:.86rem;border-top:1px solid v
 <tr><td>ACN Group of California</td><td>California Schools VEBA (chiro)</td><td>1689450678</td><td>CPT 97140</td><td>fee schedule</td><td class="num">$31.00</td></tr>
 <tr><td>ACN Group of California</td><td>California Schools VEBA (chiro)</td><td>1053495770</td><td>CPT 98940</td><td>fee schedule</td><td class="num">$40.00</td></tr>
 </tbody></table></div>
-<p class="note">Downloads: <a href="samples/sample-eu-tenders.csv">sample-eu-tenders.csv</a> · <a href="samples/sample-us-negotiated-rates.csv">sample-us-negotiated-rates.csv</a> (40 of 14,280 rows from a file published 2026-10-01). CPT® code descriptions are intentionally omitted (AMA copyright).</p>
+<div id="t3" class="tablewrap" hidden><table><thead><tr><th>Payer</th><th>Code</th><th>Rate type / class</th><th class="num">Rates</th><th class="num">p10</th><th class="num">Median</th><th class="num">p90</th></tr></thead><tbody>
+<tr><td>BCBS Michigan</td><td>CPT 95718</td><td>fee schedule · professional</td><td class="num">38,180</td><td class="num">$156.71</td><td class="num">$184.37</td><td class="num">$227.98</td></tr>
+<tr><td>BCBS Michigan</td><td>CPT 95718</td><td>derived · institutional</td><td class="num">73</td><td class="num">$121.92</td><td class="num">$243.85</td><td class="num">$455.03</td></tr>
+<tr><td>BCBS Michigan</td><td>CPT 95719</td><td>fee schedule · professional</td><td class="num">36,059</td><td class="num">$188.15</td><td class="num">$221.35</td><td class="num">$231.79</td></tr>
+</tbody></table></div>
+<p class="note">Downloads: <a href="samples/sample-eu-tenders.csv">sample-eu-tenders.csv</a> · <a href="samples/sample-us-negotiated-rates.csv">sample-us-negotiated-rates.csv</a> (40 of 14,280 rows from a file published 2026-10-01) · <a href="samples/sample-us-cost-benchmark.csv">sample-us-cost-benchmark.csv</a> · <a href="samples/sample-us-lowest-rate-hospitals.csv">sample-us-lowest-rate-hospitals.csv</a>. CPT® code descriptions are intentionally omitted (AMA copyright).</p>
 </div></section>
 
 <section id="faq" class="alt"><div class="wrap">
@@ -135,6 +148,7 @@ footer{padding:40px 0;color:var(--muted);font-size:.86rem;border-top:1px solid v
 <details><summary>Where does the data come from?</summary><p>Only official public sources: TED (Tenders Electronic Daily, EU Publications Office), the European Commission Funding &amp; Tenders Portal, RDW Open Data (Netherlands Vehicle Authority), and the machine-readable price files that US health plans must publish under the Transparency in Coverage rule (45 CFR 147.212). We are not affiliated with any of these bodies.</p></details>
 <details><summary>What am I paying for if the data is public?</summary><p>For the work: finding the right files, filtering them to your criteria, and delivering a clean spreadsheet. US payer files are often hundreds of MB to tens of GB of nested JSON; we stream-parse them so you don't have to.</p></details>
 <details><summary>How do I pay?</summary><p>After your order e-mail we send an invoice with payment details. Please quote your order number. You receive the file once payment is received; for repeat customers we can deliver first.</p></details>
+<details><summary>How reliable are the US price benchmarks?</summary><p>Every number comes straight from the payer's own published file and carries its date. Placeholder rates ($0–$1) and expired contracts are removed. Percentage-of-charge rates are shown separately and never mixed with dollar amounts. Professional and facility rates are benchmarked separately. Provider names, cities and specialties come from the public CMS NPPES registry.</p></details>
 <details><summary>How fresh is the data?</summary><p>EU and RDW data are queried live when we prepare your file. US payer files are updated monthly by the plans; we use the latest file and show its date in every row.</p></details>
 <details><summary>Can I get a free sample for my sector?</summary><p>Yes. E-mail us your sector and countries (or payer and codes) and we will send a short sample.</p></details>
 <details><summary>Can I cancel the monthly digest?</summary><p>Anytime: reply to any digest e-mail with "cancel". No further invoices are sent.</p></details>
@@ -162,7 +176,7 @@ footer{padding:40px 0;color:var(--muted);font-size:.86rem;border-top:1px solid v
   function tpl(pkg){
     var us=/^US /.test(pkg),rdw=/RDW/.test(pkg),fund=/funding/.test(pkg),eu=/EU /.test(pkg),fields;
     if(rdw) fields="Licence plates (one per line, max 100):\n\n\n";
-    else if(us) fields="Payer / plan (name or link to the payer's price-transparency page):\nBilling codes (CPT/HCPCS, comma separated):\nState (optional):\nNPI list (optional):\n\n";
+    else if(us) fields="Payer(s) / plan (name or link to the payer's price-transparency page):\nBilling codes (CPT/HCPCS/DRG, comma separated):\nState (optional):\nNPI list or TIN (optional; required for the contract check):\n\n";
     else if(fund) fields="Topic / keywords:\nYour country and organisation type (e.g. NL SME, university):\nProgrammes of interest (optional):\n\n";
     else if(eu) fields="Sector keywords:\nCPV codes (optional):\nCountries:\n\n";
     else fields="Your question or request:\n\n\n";
