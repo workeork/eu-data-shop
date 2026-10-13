@@ -1,0 +1,10 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex"><title>Reset password · DataSnacks</title><link rel="stylesheet" href="style.css"></head><body>
+<header class="nav"><div class="wrap"><a class="logo" href="../"><span aria-hidden="true">🥨</span>DataSnacks</a><nav><a href="../">Shop</a><a href="index.html">My account</a></nav></div></header>
+<main><div class="wrap"><div class="card narrow"><h1>Reset password</h1><form id="f"><label>Email</label><input id="email" type="email" required><button class="btn primary">Send reset link</button></form><div id="m"></div></div></div></main>
+<script type="module">
+import { sb, $, msg, base } from "./app.js";
+$("#f").onsubmit = async (e) => { e.preventDefault();
+  const { error } = await sb.auth.resetPasswordForEmail($("#email").value.trim(), { redirectTo: base + "update-password.html" });
+  msg($("#m"), error ? error.message : "If an account exists, a reset link is on its way.", !error); };
+</script></body></html>

@@ -1,0 +1,12 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex"><title>Log in · DataSnacks</title><link rel="stylesheet" href="style.css"></head><body>
+<header class="nav"><div class="wrap"><a class="logo" href="../"><span aria-hidden="true">🥨</span>DataSnacks</a><nav><a href="../">Shop</a><a href="index.html">My account</a></nav></div></header>
+<main><div class="wrap"><div class="card narrow"><h1>Log in</h1><form id="f"><label>Email</label><input id="email" type="email" autocomplete="email" required><label>Password</label><input id="pw" type="password" autocomplete="current-password" required><button class="btn primary">Log in</button></form><p class="muted">No account? <a href="signup.html">Sign up</a> · <a href="reset.html">Forgot password?</a></p><div id="m"></div></div></div></main>
+<script type="module">
+import { sb, $, msg } from "./app.js";
+$("#f").onsubmit = async (e) => { e.preventDefault();
+  const { error } = await sb.auth.signInWithPassword({ email: $("#email").value.trim(), password: $("#pw").value });
+  if (error) return msg($("#m"), error.message);
+  const { data: aal } = await sb.auth.mfa.getAuthenticatorAssuranceLevel();
+  location.href = (aal.nextLevel === "aal2" && aal.currentLevel !== "aal2") ? "mfa.html?challenge=1" : "index.html"; };
+</script></body></html>

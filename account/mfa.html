@@ -1,0 +1,25 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex"><title>Two-factor authentication · DataSnacks</title><link rel="stylesheet" href="style.css"></head><body>
+<header class="nav"><div class="wrap"><a class="logo" href="../"><span aria-hidden="true">🥨</span>DataSnacks</a><nav><a href="../">Shop</a><a href="index.html">My account</a></nav></div></header>
+<main><div class="wrap"><div class="card narrow" id="enroll" hidden><h1>Set up 2FA</h1><p class="muted">Scan this QR code with an authenticator app (Aegis, Google Authenticator, 1Password…), then enter the 6-digit code.</p><img id="qr" alt="QR code" style="width:200px;height:200px"><p class="muted">Or enter this secret: <code id="secret"></code></p><label>Code</label><input id="code1" inputmode="numeric" autocomplete="one-time-code" maxlength="6"><button class="btn primary" id="go1">Enable 2FA</button><div id="m1"></div></div>
+<div class="card narrow" id="challenge" hidden><h1>Enter your 2FA code</h1><label>6-digit code</label><input id="code2" inputmode="numeric" autocomplete="one-time-code" maxlength="6"><button class="btn primary" id="go2">Verify</button><div id="m2"></div></div></div></main>
+<script type="module">
+import { sb, $, msg } from "./app.js";
+const { data: { session } } = await sb.auth.getSession();
+if (!session) location.href = "login.html";
+const { data: f } = await sb.auth.mfa.listFactors();
+const verified = (f?.totp || []).find(x => x.status === "verified");
+async function check(factorId, code, m) {
+  const ch = await sb.auth.mfa.challenge({ factorId }); if (ch.error) return msg(m, ch.error.message);
+  const v = await sb.auth.mfa.verify({ factorId, challengeId: ch.data.id, code: code.trim() });
+  if (v.error) return msg(m, v.error.message);
+  location.href = "index.html"; }
+if (verified) { $("#challenge").hidden = false; $("#go2").onclick = () => check(verified.id, $("#code2").value, $("#m2")); }
+else {
+  for (const x of (f?.all || [])) if (x.status === "unverified") await sb.auth.mfa.unenroll({ factorId: x.id });
+  const { data, error } = await sb.auth.mfa.enroll({ factorType: "totp", friendlyName: "DataSnacks " + Date.now() });
+  $("#enroll").hidden = false;
+  if (error) msg($("#m1"), error.message);
+  else { $("#qr").src = data.totp.qr_code; $("#secret").textContent = data.totp.secret;
+         $("#go1").onclick = () => check(data.id, $("#code1").value, $("#m1")); } }
+</script></body></html>

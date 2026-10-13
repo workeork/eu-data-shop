@@ -1,0 +1,30 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex"><title>My account · DataSnacks</title><link rel="stylesheet" href="style.css"></head><body>
+<header class="nav"><div class="wrap"><a class="logo" href="../"><span aria-hidden="true">🥨</span>DataSnacks</a><nav><a href="../">Shop</a><a href="index.html">My account</a></nav></div></header>
+<main><div class="wrap"><h1>My account</h1><div class="tabs"><a href="#invoices">Invoices &amp; payment requests</a><a href="#orders">Orders &amp; requests</a><a href="#details">Account details</a><a href="#security">Security</a><a href="#" id="out">Log out</a></div>
+<section class="card" id="invoices"><h2>Invoices &amp; payment requests</h2><div class="tablewrap"><table><thead><tr><th>Invoice</th><th>Date</th><th>Description</th><th>Amount</th><th>Status</th><th></th></tr></thead><tbody id="inv"></tbody></table></div></section>
+<section class="card" id="orders"><h2>Order history &amp; previous requests</h2><div class="tablewrap"><table><thead><tr><th>Order</th><th>Date</th><th>Package</th><th>Details</th><th>Status</th></tr></thead><tbody id="ord"></tbody></table></div></section>
+<section class="card" id="details"><h2>Account details</h2><form id="pf"><label>Email</label><input id="email" disabled><label>Full name</label><input id="full_name"><label>Company</label><input id="company"><label>VAT number</label><input id="vat_number"><label>Billing address</label><input id="billing_address"><button class="btn primary">Save</button></form><div id="pm"></div></section>
+<section class="card" id="security"><h2>Security</h2><p id="mfaState" class="muted"></p><a class="btn ghost" href="mfa.html" id="mfaBtn">Set up 2FA</a> <button class="btn ghost" id="unenroll" hidden>Disable 2FA</button><h2 style="margin-top:1.5rem">Change password</h2><form id="cp"><label>New password</label><input id="npw" type="password" minlength="10" autocomplete="new-password" required><button class="btn primary">Update password</button></form><div id="sm"></div></section></div></main>
+<script type="module">
+import { sb, $, msg, esc, money, safeUrl, requireAuth, logout } from "./app.js";
+const user = await requireAuth(); if (!user) throw 0;
+$("#out").onclick = (e) => { e.preventDefault(); logout(); };
+const fmtD = (d) => d ? new Date(d).toLocaleDateString("en-GB") : "";
+const { data: inv, error: ie } = await sb.from("invoices").select("*").order("issued_at", { ascending: false });
+$("#inv").innerHTML = ie ? `<tr><td colspan=6>${esc(ie.message)}</td></tr>` : (inv.length ? inv.map(i => { const u = safeUrl(i.payment_url);
+  return `<tr><td>${esc(i.invoice_number)}</td><td>${fmtD(i.issued_at)}</td><td>${esc(i.description)}</td><td>${money(i.amount_cents, i.currency)}</td><td><span class="badge ${esc(i.status)}">${esc(i.status)}</span></td><td>${i.status === "open" && u ? `<a class="btn primary" style="margin:0" href="${esc(u)}" target="_blank" rel="noopener noreferrer">Pay now</a>` : ""}</td></tr>`; }).join("") : "<tr><td colspan=6 class=muted>No invoices yet.</td></tr>");
+const { data: ord, error: oe } = await sb.from("orders").select("*").order("created_at", { ascending: false });
+$("#ord").innerHTML = oe ? `<tr><td colspan=5>${esc(oe.message)}</td></tr>` : (ord.length ? ord.map(o => `<tr><td>${esc(o.order_ref)}</td><td>${fmtD(o.created_at)}</td><td>${esc(o.package)}</td><td>${esc(o.details)}</td><td><span class="badge">${esc(o.status)}</span></td></tr>`).join("") : "<tr><td colspan=5 class=muted>No orders yet.</td></tr>");
+const F = ["full_name", "company", "vat_number", "billing_address"];
+$("#email").value = user.email;
+const { data: p } = await sb.from("profiles").select("*").eq("id", user.id).maybeSingle();
+F.forEach(k => $("#" + k).value = p?.[k] ?? "");
+$("#pf").onsubmit = async (e) => { e.preventDefault(); const row = Object.fromEntries(F.map(k => [k, $("#" + k).value.trim()]));
+  const { error } = await sb.from("profiles").update(row).eq("id", user.id); msg($("#pm"), error ? error.message : "Saved.", !error); };
+const { data: f } = await sb.auth.mfa.listFactors(); const t = (f?.totp || []).find(x => x.status === "verified");
+$("#mfaState").textContent = t ? "2FA (authenticator app) is ON." : "2FA is OFF. We recommend turning it on.";
+if (t) { $("#mfaBtn").hidden = true; $("#unenroll").hidden = false;
+  $("#unenroll").onclick = async () => { const { error } = await sb.auth.mfa.unenroll({ factorId: t.id }); if (error) return msg($("#sm"), error.message); await sb.auth.refreshSession(); location.reload(); }; }
+$("#cp").onsubmit = async (e) => { e.preventDefault(); const { error } = await sb.auth.updateUser({ password: $("#npw").value }); msg($("#sm"), error ? error.message : "Password updated.", !error); };
+</script></body></html>
