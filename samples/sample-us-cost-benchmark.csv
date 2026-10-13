@@ -1,0 +1,7 @@
+payer,file_last_updated,billing_code,negotiated_type,billing_class,unit,rates,providers,mean,p10,p25,median,p75,p90,min,max
+BCBSMI,2026-10-01,95718,derived,institutional,USD,73,73,268.11,121.92,160.77,243.85,307.6,455.03,82.25,804.54
+BCBSMI,2026-10-01,95718,fee schedule,professional,USD,38180,13858,180.47,156.71,156.71,184.37,193.78,227.98,156.71,307.77
+BCBSMI,2026-10-01,95718,percentage,institutional,%,204,203,56.61,50.0,50.0,50.0,56.26,80.56,28.7,100.0
+BCBSMI,2026-10-01,95719,derived,institutional,USD,73,73,320.3,145.65,192.07,291.32,367.47,543.59,98.26,961.15
+BCBSMI,2026-10-01,95719,fee schedule,professional,USD,36059,13858,213.04,188.15,188.15,221.35,231.79,231.79,188.15,298.82
+BCBSMI,2026-10-01,95719,percentage,institutional,%,204,203,56.61,50.0,50.0,50.0,56.26,80.56,28.7,100.0

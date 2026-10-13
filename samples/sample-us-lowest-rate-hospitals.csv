@@ -1,0 +1,11 @@
+billing_code,billing_class_group,rank,npi,tin,provider_name,city,state,taxonomy,negotiated_rate_usd,negotiated_type,billing_class,percentile_vs_market
+95718,institutional,1,1265426704,38-6004889,HEALTHSOURCE SAGINAW INC,Saginaw,MI,Skilled Nursing Facility,82.25,derived,institutional,0.0
+95718,institutional,2,1699926113,26-3333652,"BCA OF DETROIT, LLC",Detroit,MI,Psychiatric Hospital,82.25,derived,institutional,0.0
+95718,institutional,3,1548268436,38-1455020,STRAITH HOSPITAL FOR SPECIAL SURGERY,Southfield,MI,General Acute Care Hospital,85.91,derived,institutional,2.7
+95718,institutional,4,1598717480,38-6005601,HURLEY MEDICAL CENTER,Flint,MI,General Acute Care Hospital,92.35,derived,institutional,4.1
+95718,institutional,5,1962402354,13-4257646,"SOUTHEAST MICHIGAN SURGICAL HOSPITAL, LLC",Warren,MI,General Acute Care Hospital,98.19,derived,institutional,5.5
+95719,institutional,1,1265426704,38-6004889,HEALTHSOURCE SAGINAW INC,Saginaw,MI,Skilled Nursing Facility,98.26,derived,institutional,0.0
+95719,institutional,2,1699926113,26-3333652,"BCA OF DETROIT, LLC",Detroit,MI,Psychiatric Hospital,98.26,derived,institutional,0.0
+95719,institutional,3,1548268436,38-1455020,STRAITH HOSPITAL FOR SPECIAL SURGERY,Southfield,MI,General Acute Care Hospital,102.63,derived,institutional,2.7
+95719,institutional,4,1598717480,38-6005601,HURLEY MEDICAL CENTER,Flint,MI,General Acute Care Hospital,110.33,derived,institutional,4.1
+95719,institutional,5,1962402354,13-4257646,"SOUTHEAST MICHIGAN SURGICAL HOSPITAL, LLC",Warren,MI,General Acute Care Hospital,117.3,derived,institutional,5.5
