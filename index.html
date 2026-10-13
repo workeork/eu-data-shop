@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>EU Data Shop: EU tenders, EU funding calls, Dutch vehicle data &amp; US negotiated rates</title>
+<title>DataSnacks · Bite-sized public data, served fresh: EU tenders, EU funding calls, Dutch vehicle data &amp; US negotiated rates</title>
 <meta name="description" content="Ready-to-use CSV extracts from official open data: EU public tenders (TED), EU funding calls incl. cascade funding, Dutch RDW vehicle data and US health-plan negotiated rates (Transparency in Coverage). Order by e-mail, invoice by e-mail.">
 <style>
 :root{--ink:#0f172a;--muted:#475569;--line:#e2e8f0;--bg:#f8fafc;--brand:#1d4ed8;--brand2:#0ea5e9;--ok:#059669;--card:#fff;--r:14px}
@@ -13,7 +13,7 @@ a{color:var(--brand)}.wrap{max-width:1120px;margin:0 auto;padding:0 20px}
 header.nav{position:sticky;top:0;z-index:10;background:rgba(255,255,255,.9);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
 .nav .wrap{display:flex;align-items:center;justify-content:space-between;height:64px}
 .logo{font-weight:800;letter-spacing:-.02em;text-decoration:none;color:var(--ink);display:flex;gap:.5rem;align-items:center}
-.logo span{display:inline-grid;place-items:center;width:30px;height:30px;border-radius:8px;background:linear-gradient(135deg,var(--brand),var(--brand2));color:#fff;font-size:.9rem}
+.logo span{font-size:1.1rem!important;display:inline-grid;place-items:center;width:30px;height:30px;border-radius:8px;background:linear-gradient(135deg,var(--brand),var(--brand2));color:#fff;font-size:.9rem}
 .nav nav a{color:var(--muted);text-decoration:none;margin-left:1.4rem;font-size:.95rem}.nav nav a:hover{color:var(--ink)}
 @media(max-width:760px){.nav nav a:not(.cta){display:none}}
 .btn{display:inline-flex;align-items:center;gap:.4rem;padding:.7rem 1.15rem;border-radius:10px;font-weight:600;text-decoration:none;border:1px solid transparent;transition:.15s}
@@ -53,11 +53,11 @@ details p{color:#334155;margin:.7rem 0 0}
 .ctaband{background:linear-gradient(135deg,#1e3a8a,#1d4ed8 55%,#0284c7);color:#fff;border-radius:20px;padding:44px;display:flex;flex-wrap:wrap;gap:1.5rem;align-items:center;justify-content:space-between}
 .ctaband h2{color:#fff}.ctaband p{margin:0;opacity:.9}.ctaband .btn{background:#fff;color:#1e3a8a}
 footer{padding:40px 0;color:var(--muted);font-size:.86rem;border-top:1px solid var(--line)}
-</style>
+@media(max-width:640px){.logo .tag{display:none}}</style>
 </head>
 <body>
 <header class="nav"><div class="wrap">
-<a class="logo" href="#"><span>EU</span>EU Data Shop</a>
+<a class="logo" href="#" aria-label="DataSnacks home"><span aria-hidden="true">🥨</span>DataSnacks<small style="font-weight:500;color:var(--muted,#6b7280);font-size:.78rem;margin-left:.25rem" class="tag">Bite-sized public data, served fresh.</small></a>
 <nav><a href="prices/">Free price checker</a><a href="#packages">Packages</a><a href="#how">How it works</a><a href="#samples">Sample output</a><a href="#faq">FAQ</a><a class="btn primary cta mail" data-pkg="General question / free sample" href="mailto:eu-data-shop@mail.grokbot.com">Contact</a></nav>
 </div></header>
 
@@ -162,7 +162,7 @@ footer{padding:40px 0;color:var(--muted);font-size:.86rem;border-top:1px solid v
 </main>
 
 <footer><div class="wrap">
-<p><b>EU Data Shop</b> · Netherlands · <a href="mailto:eu-data-shop@mail.grokbot.com">eu-data-shop@mail.grokbot.com</a></p>
+<p><b>🥨 DataSnacks</b> · Bite-sized public data, served fresh. · Netherlands · <a href="mailto:eu-data-shop@mail.grokbot.com">eu-data-shop@mail.grokbot.com</a></p>
 <p>Data: TED and EC Funding &amp; Tenders Portal © European Union (reuse authorised under Commission Decision 2011/833/EU); RDW Open Data (CC0); US Transparency in Coverage files are published by health plans under 45 CFR 147.212. CPT® is a registered trademark of the American Medical Association; CPT descriptions are not included. Not affiliated with the EU, RDW, CMS or any health plan.</p>
 </div></footer>
 
