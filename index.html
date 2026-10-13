@@ -1,33 +1,183 @@
-<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>EU Tender & Funding Digests | Dutch RDW data – from €5</title>
-<meta name="description" content="Open EU public tenders (TED), EU funding calls incl. cascade funding, and Dutch RDW vehicle data, delivered as Excel/CSV. Pay with PayPal from €5.">
-<style>body{font-family:system-ui,sans-serif;max-width:880px;margin:2rem auto;padding:0 1rem;line-height:1.5;color:#222}
-.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:1rem}.card{border:1px solid #ddd;border-radius:10px;padding:1rem}
-.price{font-size:1.5rem;font-weight:700;margin-top:.6rem}.btn{display:inline-block;background:#0070ba;color:#fff;padding:.5rem .9rem;border-radius:6px;text-decoration:none;margin:.25rem .2rem .25rem 0}
-.btn.alt{background:#2e7d32}code{background:#f4f4f4;border-radius:4px;padding:.1rem .3rem}.oid{font-family:monospace;font-size:1.2rem;background:#fff3cd;padding:.2rem .5rem;border-radius:4px}</style></head><body>
-<h1>EU tenders, EU funding calls &amp; Dutch vehicle data, ready to use</h1>
-<p>Official sources only: TED (EU Publications Office), the EC Funding &amp; Tenders Portal, and RDW Open Data. You get an Excel-ready CSV and a short summary by e-mail within 1 business day.</p>
-<p><b>How to order:</b> (1) click <i>Order by e-mail</i> and fill in the template, (2) pay with the PayPal button and <b>put your order number in the PayPal note</b>, (3) we e-mail your file.<br>
-Your order number: <span class="oid" id="oid">EDS-…</span> <small>(also included in the e-mail)</small></p>
-<div class="cards">
-<div class="card"><h3>EU tender digest</h3><p>All open tenders for your sector (CPV codes / keywords) and countries, with buyer, estimated value, deadline and link.</p>
-<div class="price">€9 <small>one-off</small></div><a class="btn alt mail" data-pkg="EU tender digest, one-off (€9)" href="#">Order by e-mail</a><a class="btn" href="https://www.paypal.me/BTenieur/9EUR">Pay €9 with PayPal</a>
-<div class="price">€19 <small>per month</small></div><small>A fresh digest every Monday. Cancel anytime.</small><br><a class="btn alt mail" data-pkg="EU tender digest, monthly (€19/month)" href="#">Order by e-mail</a><a class="btn" href="https://www.paypal.me/BTenieur/19EUR">Pay €19 with PayPal</a></div>
-<div class="card"><h3>EU funding-calls report</h3><p>Open and forthcoming Horizon Europe, Digital Europe, EIC, LIFE and Erasmus+ calls, <b>plus cascade funding</b> (€10k–€300k for SMEs), matching your topic and sorted by next deadline. Only calls with deadlines still ahead.</p>
-<div class="price">€9</div><a class="btn alt mail" data-pkg="EU funding-calls report (€9)" href="#">Order by e-mail</a><a class="btn" href="https://www.paypal.me/BTenieur/9EUR">Pay €9 with PayPal</a></div>
-<div class="card"><h3>100 RDW vehicle lookups</h3><p>Send up to 100 Dutch licence plates. You get make, model, APK expiry, fuel, CO₂, catalogue price, WAM status and open recalls as CSV.</p>
-<div class="price">€5</div><a class="btn alt mail" data-pkg="100 RDW vehicle lookups CSV (€5)" href="#">Order by e-mail</a><a class="btn" href="https://www.paypal.me/BTenieur/5EUR">Pay €5 with PayPal</a></div></div>
-<p>Questions or a free sample for your sector? <a href="mailto:eu-data-shop@mail.grokbot.com?subject=Sample%20request">eu-data-shop@mail.grokbot.com</a></p>
-<h3>For developers &amp; AI agents: coming soon</h3><p>Pay-per-call API access over Bitcoin Lightning (L402), from 5 sats per call.</p>
-<p><small>Your e-mail is used only to deliver your order and is deleted after 90 days. Netherlands-based. Data: TED and EC Funding &amp; Tenders Portal © European Union, reuse authorised; RDW Open Data, CC0. Not affiliated with these bodies.</small></p>
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>EU Data Shop: EU tenders, EU funding calls, Dutch vehicle data &amp; US negotiated rates</title>
+<meta name="description" content="Ready-to-use CSV extracts from official open data: EU public tenders (TED), EU funding calls incl. cascade funding, Dutch RDW vehicle data and US health-plan negotiated rates (Transparency in Coverage). Order by e-mail, invoice by e-mail.">
+<style>
+:root{--ink:#0f172a;--muted:#475569;--line:#e2e8f0;--bg:#f8fafc;--brand:#1d4ed8;--brand2:#0ea5e9;--ok:#059669;--card:#fff;--r:14px}
+*{box-sizing:border-box}html{scroll-behavior:smooth}
+body{margin:0;font-family:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;color:var(--ink);background:#fff;line-height:1.6}
+a{color:var(--brand)}.wrap{max-width:1120px;margin:0 auto;padding:0 20px}
+header.nav{position:sticky;top:0;z-index:10;background:rgba(255,255,255,.9);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
+.nav .wrap{display:flex;align-items:center;justify-content:space-between;height:64px}
+.logo{font-weight:800;letter-spacing:-.02em;text-decoration:none;color:var(--ink);display:flex;gap:.5rem;align-items:center}
+.logo span{display:inline-grid;place-items:center;width:30px;height:30px;border-radius:8px;background:linear-gradient(135deg,var(--brand),var(--brand2));color:#fff;font-size:.9rem}
+.nav nav a{color:var(--muted);text-decoration:none;margin-left:1.4rem;font-size:.95rem}.nav nav a:hover{color:var(--ink)}
+@media(max-width:760px){.nav nav a:not(.cta){display:none}}
+.btn{display:inline-flex;align-items:center;gap:.4rem;padding:.7rem 1.15rem;border-radius:10px;font-weight:600;text-decoration:none;border:1px solid transparent;transition:.15s}
+.btn.primary{background:var(--brand);color:#fff}.btn.primary:hover{background:#1e40af}
+.btn.ghost{border-color:var(--line);color:var(--ink);background:#fff}.btn.ghost:hover{border-color:#cbd5e1}
+.nav .cta{margin-left:1.4rem;padding:.45rem .9rem}
+.hero{background:radial-gradient(1200px 400px at 80% -10%,#dbeafe 0,transparent 60%),radial-gradient(800px 300px at 0 0,#e0f2fe 0,transparent 60%);padding:84px 0 64px}
+.hero h1{font-size:clamp(2rem,4.5vw,3.3rem);line-height:1.1;letter-spacing:-.03em;margin:.2rem 0 1rem;max-width:820px}
+.hero p.lead{font-size:1.15rem;color:var(--muted);max-width:700px;margin:0 0 1.8rem}
+.pill{display:inline-block;font-size:.8rem;font-weight:600;color:var(--brand);background:#eff6ff;border:1px solid #dbeafe;border-radius:999px;padding:.25rem .7rem}
+.trust{display:flex;flex-wrap:wrap;gap:1.4rem;margin-top:2.2rem;color:var(--muted);font-size:.92rem}.trust b{color:var(--ink)}
+section{padding:72px 0}section.alt{background:var(--bg);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+h2{font-size:clamp(1.6rem,3vw,2.2rem);letter-spacing:-.02em;margin:0 0 .5rem}.sub{color:var(--muted);margin:0 0 2.2rem;max-width:720px}
+h3.group{margin:2.2rem 0 1rem;font-size:1.05rem;color:var(--muted);text-transform:uppercase;letter-spacing:.06em}
+.grid{display:grid;gap:20px;grid-template-columns:repeat(auto-fill,minmax(250px,1fr))}
+.card{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:24px;display:flex;flex-direction:column;box-shadow:0 1px 2px rgba(15,23,42,.04)}
+.card.feat{border-color:#93c5fd;box-shadow:0 10px 30px -12px rgba(29,78,216,.35)}
+.card h4{margin:.2rem 0 .3rem;font-size:1.15rem}.card .src{font-size:.82rem;color:var(--muted)}
+.price{font-size:2rem;font-weight:800;letter-spacing:-.02em;margin:.9rem 0 .1rem}.price small{font-size:.95rem;font-weight:500;color:var(--muted)}
+.card ul{padding-left:1.1rem;margin:.8rem 0 1.2rem;color:#334155;font-size:.95rem}.card li{margin:.25rem 0}
+.card .btn{margin-top:auto;justify-content:center}
+.tag{align-self:flex-start;font-size:.72rem;font-weight:700;color:#065f46;background:#d1fae5;border-radius:999px;padding:.15rem .55rem;margin-bottom:.4rem}
+.steps{display:grid;gap:20px;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));counter-reset:s}
+.step{background:#fff;border:1px solid var(--line);border-radius:var(--r);padding:22px}
+.step:before{counter-increment:s;content:counter(s);display:inline-grid;place-items:center;width:34px;height:34px;border-radius:50%;background:#eff6ff;color:var(--brand);font-weight:800;margin-bottom:.6rem}
+.step h4{margin:.2rem 0 .3rem}.step p{margin:0;color:var(--muted);font-size:.95rem}
+.oid{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;background:#fef9c3;border:1px solid #fde68a;padding:.1rem .45rem;border-radius:6px;font-weight:700}
+.tabs{display:flex;gap:.5rem;flex-wrap:wrap;margin-bottom:1rem}.tabs button{font:inherit;border:1px solid var(--line);background:#fff;border-radius:999px;padding:.4rem .9rem;cursor:pointer}
+.tabs button[aria-selected=true]{background:var(--ink);color:#fff;border-color:var(--ink)}
+.tablewrap{overflow-x:auto;border:1px solid var(--line);border-radius:var(--r);background:#fff}
+table{border-collapse:collapse;width:100%;font-size:.88rem;min-width:640px}th,td{text-align:left;padding:.6rem .8rem;border-bottom:1px solid var(--line);white-space:nowrap}
+th{background:var(--bg);font-weight:600;color:#334155}td.num{text-align:right;font-variant-numeric:tabular-nums}
+.note{font-size:.85rem;color:var(--muted);margin-top:.7rem}
+details{background:#fff;border:1px solid var(--line);border-radius:12px;padding:16px 20px;margin-bottom:12px}
+summary{cursor:pointer;font-weight:600;list-style:none}summary::-webkit-details-marker{display:none}summary:after{content:"+";float:right;color:var(--muted)}details[open] summary:after{content:"–"}
+details p{color:#334155;margin:.7rem 0 0}
+.ctaband{background:linear-gradient(135deg,#1e3a8a,#1d4ed8 55%,#0284c7);color:#fff;border-radius:20px;padding:44px;display:flex;flex-wrap:wrap;gap:1.5rem;align-items:center;justify-content:space-between}
+.ctaband h2{color:#fff}.ctaband p{margin:0;opacity:.9}.ctaband .btn{background:#fff;color:#1e3a8a}
+footer{padding:40px 0;color:var(--muted);font-size:.86rem;border-top:1px solid var(--line)}
+</style>
+</head>
+<body>
+<header class="nav"><div class="wrap">
+<a class="logo" href="#"><span>EU</span>EU Data Shop</a>
+<nav><a href="#packages">Packages</a><a href="#how">How it works</a><a href="#samples">Sample output</a><a href="#faq">FAQ</a><a class="btn primary cta mail" data-pkg="General question / free sample" href="mailto:eu-data-shop@mail.grokbot.com">Contact</a></nav>
+</div></header>
+
+<main>
+<section class="hero"><div class="wrap">
+<span class="pill">Official open data · CSV / Excel ready · Delivered by e-mail</span>
+<h1>Tenders, funding calls and price data, cleaned and ready to use.</h1>
+<p class="lead">We turn official public sources into clean spreadsheets: EU public tenders (TED), EU funding calls including cascade funding, Dutch RDW vehicle data, and US health-plan negotiated rates. Tell us what you need, and you get your file and an invoice by e-mail.</p>
+<a class="btn primary" href="#packages">See packages</a> <a class="btn ghost" href="#samples">View sample output</a>
+<div class="trust"><div><b>Official sources only</b>: EU Publications Office, European Commission, RDW, US health plans (CMS rules)</div><div><b>Delivered in 1 business day</b> (US rate extracts: 2)</div><div><b>Invoice by e-mail</b>. No account needed.</div></div>
+</div></section>
+
+<section id="packages"><div class="wrap">
+<h2>Packages</h2>
+<p class="sub">Fixed prices, no subscriptions unless you choose one. Click <b>Order by e-mail</b>: a pre-filled e-mail opens with your order number. We confirm and send an invoice.</p>
+
+<h3 class="group">Europe</h3>
+<div class="grid">
+<div class="card feat"><span class="tag">Most popular</span><h4>EU tender digest</h4><div class="src">Source: TED, EU Publications Office</div>
+<div class="price">€19 <small>/ month</small></div><ul><li>All open tenders for your CPV codes, keywords and countries</li><li>Buyer, estimated value, deadline, procedure, direct link</li><li>Fresh file every Monday. Cancel anytime.</li></ul>
+<a class="btn primary mail" data-pkg="EU tender digest, monthly (EUR 19/month)" href="mailto:eu-data-shop@mail.grokbot.com">Order by e-mail</a></div>
+<div class="card"><h4>EU tender digest: one-off</h4><div class="src">Source: TED, EU Publications Office</div>
+<div class="price">€9 <small>one-off</small></div><ul><li>Same content as the monthly digest</li><li>Single snapshot of all currently open tenders</li><li>Ideal to test or for a bid/no-bid scan</li></ul>
+<a class="btn ghost mail" data-pkg="EU tender digest, one-off (EUR 9)" href="mailto:eu-data-shop@mail.grokbot.com">Order by e-mail</a></div>
+<div class="card"><h4>EU funding-calls report</h4><div class="src">Source: EC Funding &amp; Tenders Portal</div>
+<div class="price">€9</div><ul><li>Horizon Europe, Digital Europe, EIC, LIFE, Erasmus+ …</li><li><b>Plus cascade funding</b> (€10k–€300k open calls for SMEs)</li><li>Only calls with deadlines still ahead, sorted by date</li></ul>
+<a class="btn ghost mail" data-pkg="EU funding-calls report (EUR 9)" href="mailto:eu-data-shop@mail.grokbot.com">Order by e-mail</a></div>
+<div class="card"><h4>100 Dutch vehicle lookups</h4><div class="src">Source: RDW Open Data</div>
+<div class="price">€5</div><ul><li>Up to 100 Dutch licence plates per order</li><li>Make, model, APK expiry, fuel, CO₂, catalogue price</li><li>Insurance (WAM) status and open recalls</li></ul>
+<a class="btn ghost mail" data-pkg="100 RDW vehicle lookups CSV (EUR 5)" href="mailto:eu-data-shop@mail.grokbot.com">Order by e-mail</a></div>
+</div>
+
+<h3 class="group">United States: health-plan price transparency</h3>
+<div class="grid">
+<div class="card feat"><span class="tag">New</span><h4>Negotiated-rate extract</h4><div class="src">Source: Transparency in Coverage machine-readable files (CMS rule)</div>
+<div class="price">€49 <small>≈ US$55</small></div><ul><li>1 payer / plan file, up to 10 CPT/HCPCS codes</li><li>Every in-network negotiated rate with NPI, TIN, rate type, billing class and setting</li><li>Optional filter by NPI list or state</li></ul>
+<a class="btn primary mail" data-pkg="US negotiated-rate extract: 1 payer, up to 10 codes (EUR 49 / USD 55)" href="mailto:eu-data-shop@mail.grokbot.com">Order by e-mail</a></div>
+<div class="card"><h4>Payer rate benchmark</h4><div class="src">Source: Transparency in Coverage + hospital price files</div>
+<div class="price">€149 <small>≈ US$165</small></div><ul><li>Up to 3 payers and 25 codes, one state or NPI list</li><li>Side-by-side CSV + summary (min / median / max per code and payer)</li><li>Hospital standard-charge files added on request</li></ul>
+<a class="btn ghost mail" data-pkg="US payer rate benchmark: up to 3 payers, 25 codes (EUR 149 / USD 165)" href="mailto:eu-data-shop@mail.grokbot.com">Order by e-mail</a></div>
+</div>
+<p class="note">Any applicable VAT is shown on the invoice. US orders can be invoiced in EUR or USD.</p>
+</div></section>
+
+<section id="how" class="alt"><div class="wrap">
+<h2>How it works</h2>
+<p class="sub">Your order number: <span class="oid" id="oid">EDS-…</span>. It is added to your e-mail automatically.</p>
+<div class="steps">
+<div class="step"><h4>Order by e-mail</h4><p>Click <i>Order by e-mail</i> on a package. Fill in the template: sector, CPV codes and countries, plates, or payer and billing codes.</p></div>
+<div class="step"><h4>Get your invoice</h4><p>We confirm feasibility and e-mail you an invoice, usually within a few hours on business days.</p></div>
+<div class="step"><h4>Pay the invoice</h4><p>Pay using the details on the invoice, quoting your order number.</p></div>
+<div class="step"><h4>Receive your file</h4><p>You receive an Excel-ready CSV and a short summary by e-mail within 1 business day (US extracts: 2).</p></div>
+</div>
+</div></section>
+
+<section id="samples"><div class="wrap">
+<h2>Sample output</h2>
+<p class="sub">Real extracts produced by our pipeline this week. Download the full sample CSVs below.</p>
+<div class="tabs" role="tablist"><button role="tab" aria-selected="true" data-t="t1">EU tenders</button><button role="tab" aria-selected="false" data-t="t2">US negotiated rates</button></div>
+<div id="t1" class="tablewrap"><table><thead><tr><th>Title</th><th>Buyer</th><th>Country</th><th>Deadline</th><th class="num">Est. value</th></tr></thead><tbody>
+<tr><td>IT services: consulting, software development (Microsoft 365 managed services)</td><td>Luchtverkeersleiding Nederland</td><td>NL</td><td>2026-11-12</td><td class="num">€3,000,000</td></tr>
+<tr><td>IT services: consulting, software development, Internet and support</td><td>Stichting Universiteit voor Humanistiek</td><td>NL</td><td>2026-11-06</td><td class="num">n/a</td></tr>
+<tr><td>Software package and information systems (Sociaal Domein)</td><td>Gemeente Goeree-Overflakkee</td><td>NL</td><td>2026-11-24</td><td class="num">n/a</td></tr>
+</tbody></table></div>
+<div id="t2" class="tablewrap" hidden><table><thead><tr><th>Payer</th><th>Plan file</th><th>NPI</th><th>Code</th><th>Rate type</th><th class="num">Negotiated rate</th></tr></thead><tbody>
+<tr><td>ACN Group of California</td><td>California Schools VEBA (chiro)</td><td>1104853571</td><td>CPT 97140</td><td>fee schedule</td><td class="num">$31.00</td></tr>
+<tr><td>ACN Group of California</td><td>California Schools VEBA (chiro)</td><td>1689450678</td><td>CPT 97140</td><td>fee schedule</td><td class="num">$31.00</td></tr>
+<tr><td>ACN Group of California</td><td>California Schools VEBA (chiro)</td><td>1053495770</td><td>CPT 98940</td><td>fee schedule</td><td class="num">$40.00</td></tr>
+</tbody></table></div>
+<p class="note">Downloads: <a href="samples/sample-eu-tenders.csv">sample-eu-tenders.csv</a> · <a href="samples/sample-us-negotiated-rates.csv">sample-us-negotiated-rates.csv</a> (40 of 14,280 rows from a file published 2026-10-01). CPT® code descriptions are intentionally omitted (AMA copyright).</p>
+</div></section>
+
+<section id="faq" class="alt"><div class="wrap">
+<h2>FAQ</h2>
+<details><summary>Where does the data come from?</summary><p>Only official public sources: TED (Tenders Electronic Daily, EU Publications Office), the European Commission Funding &amp; Tenders Portal, RDW Open Data (Netherlands Vehicle Authority), and the machine-readable price files that US health plans must publish under the Transparency in Coverage rule (45 CFR 147.212). We are not affiliated with any of these bodies.</p></details>
+<details><summary>What am I paying for if the data is public?</summary><p>For the work: finding the right files, filtering them to your criteria, and delivering a clean spreadsheet. US payer files are often hundreds of MB to tens of GB of nested JSON; we stream-parse them so you don't have to.</p></details>
+<details><summary>How do I pay?</summary><p>After your order e-mail we send an invoice with payment details. Please quote your order number. You receive the file once payment is received; for repeat customers we can deliver first.</p></details>
+<details><summary>How fresh is the data?</summary><p>EU and RDW data are queried live when we prepare your file. US payer files are updated monthly by the plans; we use the latest file and show its date in every row.</p></details>
+<details><summary>Can I get a free sample for my sector?</summary><p>Yes. E-mail us your sector and countries (or payer and codes) and we will send a short sample.</p></details>
+<details><summary>Can I cancel the monthly digest?</summary><p>Anytime: reply to any digest e-mail with "cancel". No further invoices are sent.</p></details>
+<details><summary>Do you store my data?</summary><p>Only your e-mail and order details, to deliver and invoice the order. Order data is deleted after the legal retention period for invoices; we never sell or share it.</p></details>
+</div></section>
+
+<section><div class="wrap"><div class="ctaband">
+<div><h2>Need something specific?</h2><p>Other countries, other codes, a recurring feed? Ask us and we'll quote within one business day.</p></div>
+<a class="btn mail" data-pkg="Custom request" href="mailto:eu-data-shop@mail.grokbot.com">E-mail eu-data-shop@mail.grokbot.com</a>
+</div></div></section>
+</main>
+
+<footer><div class="wrap">
+<p><b>EU Data Shop</b> · Netherlands · <a href="mailto:eu-data-shop@mail.grokbot.com">eu-data-shop@mail.grokbot.com</a></p>
+<p>Data: TED and EC Funding &amp; Tenders Portal © European Union (reuse authorised under Commission Decision 2011/833/EU); RDW Open Data (CC0); US Transparency in Coverage files are published by health plans under 45 CFR 147.212. CPT® is a registered trademark of the American Medical Association; CPT descriptions are not included. Not affiliated with the EU, RDW, CMS or any health plan.</p>
+</div></footer>
+
 <script>
-(function(){var d=new Date(),p=function(n){return String(n).padStart(2,"0")},a="ABCDEFGHJKLMNPQRSTUVWXYZ23456789",r="";
-var b=new Uint8Array(4);crypto.getRandomValues(b);for(var i=0;i<4;i++)r+=a[b[i]%a.length];
-var oid="EDS-"+String(d.getFullYear()).slice(2)+p(d.getMonth()+1)+p(d.getDate())+"-"+r;document.getElementById("oid").textContent=oid;
-document.querySelectorAll("a.mail").forEach(function(el){var pkg=el.getAttribute("data-pkg"),rdw=pkg.indexOf("RDW")>=0;
-var body="Order number: "+oid+"\nPackage: "+pkg+"\n\n"+(rdw?"Licence plates (one per line, max 100):\n\n\n":"Sector keywords:\nCPV codes (optional):\nCountries:\n\n")+
-"Name / company (optional):\nInvoice details (optional):\n\nI will pay via PayPal (paypal.me/BTenieur) with \""+oid+"\" in the PayPal note.\n";
-el.href="mailto:eu-data-shop@mail.grokbot.com?subject="+encodeURIComponent("Order "+oid+" – "+pkg)+"&body="+encodeURIComponent(body);});})();
+(function(){
+  var d=new Date(),p=function(n){return String(n).padStart(2,"0")},A="ABCDEFGHJKLMNPQRSTUVWXYZ23456789",r="",b=new Uint8Array(4);
+  (window.crypto||{getRandomValues:function(x){for(var i=0;i<x.length;i++)x[i]=Math.random()*256|0;return x}}).getRandomValues(b);
+  for(var i=0;i<4;i++)r+=A[b[i]%A.length];
+  var oid="EDS-"+String(d.getFullYear()).slice(2)+p(d.getMonth()+1)+p(d.getDate())+"-"+r;
+  document.getElementById("oid").textContent=oid;
+  function tpl(pkg){
+    var us=/^US /.test(pkg),rdw=/RDW/.test(pkg),fund=/funding/.test(pkg),eu=/EU /.test(pkg),fields;
+    if(rdw) fields="Licence plates (one per line, max 100):\n\n\n";
+    else if(us) fields="Payer / plan (name or link to the payer's price-transparency page):\nBilling codes (CPT/HCPCS, comma separated):\nState (optional):\nNPI list (optional):\n\n";
+    else if(fund) fields="Topic / keywords:\nYour country and organisation type (e.g. NL SME, university):\nProgrammes of interest (optional):\n\n";
+    else if(eu) fields="Sector keywords:\nCPV codes (optional):\nCountries:\n\n";
+    else fields="Your question or request:\n\n\n";
+    return "Order number: "+oid+"\nPackage: "+pkg+"\n\n"+fields+
+      "Name:\nCompany:\nInvoice address:\nVAT number (EU businesses, optional):\n\n"+
+      "Please e-mail me an invoice. I will quote order number "+oid+" when paying.\n";
+  }
+  document.querySelectorAll("a.mail").forEach(function(el){
+    var pkg=el.getAttribute("data-pkg");
+    el.href="mailto:eu-data-shop@mail.grokbot.com?subject="+encodeURIComponent("Order "+oid+" - "+pkg)+"&body="+encodeURIComponent(tpl(pkg));
+  });
+  document.querySelectorAll(".tabs button").forEach(function(bt){bt.addEventListener("click",function(){
+    document.querySelectorAll(".tabs button").forEach(function(x){x.setAttribute("aria-selected",x===bt);document.getElementById(x.dataset.t).hidden=x!==bt;});
+  });});
+})();
 </script>
-<noscript><p><b>Without JavaScript:</b> e-mail eu-data-shop@mail.grokbot.com with the package, your criteria or plates, and use your e-mail address as the PayPal note.</p></noscript>
+<noscript><p style="text-align:center">Without JavaScript: e-mail <a href="mailto:eu-data-shop@mail.grokbot.com">eu-data-shop@mail.grokbot.com</a> with the package and your criteria. We'll reply with an order number and invoice.</p></noscript>
 </body></html>
